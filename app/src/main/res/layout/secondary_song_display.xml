@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:background="@color/secondary_black"
+              android:orientation="vertical">
+
+    <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:id="@+id/progressBar" android:layout_weight="1"
+            android:background="@android:drawable/screen_background_light_transparent"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="1">
+        <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp" tools:srcCompat="@drawable/logo_icon" android:id="@+id/imageView"
+                android:scaleType="fitCenter"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            <TextView
+                    android:text=" Song name goes here make scrolling"
+                    android:layout_width="250dp"
+                    android:layout_height="32dp" android:id="@+id/textView4"
+                    android:textColor="@android:color/white" android:fontFamily="sans-serif"
+                    android:paddingLeft="10dp" android:fadeScrollbars="true" android:textSize="24sp"
+                    android:singleLine="true" android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever"
+                    android:focusable="true" android:focusableInTouchMode="true" android:scrollHorizontally="true"/>
+            <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"/>
+            <TextView
+                    android:text="DEVICE"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent" android:id="@+id/textView5"
+                    android:textColor="@android:color/holo_orange_dark" android:paddingLeft="17dp"
+                    android:fontFamily="sans-serif"/>
+        </LinearLayout>
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="match_parent" app:srcCompat="@drawable/outline_favorite_border_white_48"
+                android:id="@+id/imageButton2" android:background="@null" android:scaleType="centerInside"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" app:srcCompat="@drawable/outline_pause_white_48"
+                android:id="@+id/imageButton3" android:layout_weight="1" android:background="@null"/>
+    </LinearLayout>
+</LinearLayout>
