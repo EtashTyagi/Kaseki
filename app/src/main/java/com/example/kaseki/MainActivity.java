@@ -16,8 +16,5 @@ public class MainActivity extends AppCompatActivity {
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
 
-        // For just checking
-        SeekBar bar = findViewById(R.id.seekBar);
-        bar.setProgressTintList(ColorStateList.valueOf(Color.WHITE));
     }
 }

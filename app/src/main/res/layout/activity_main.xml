@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity" android:background="#000000">
-    <include android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/home_screen"
+    <include android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/search_screen"
              android:id="@+id/include"/>
     <include android:layout_width="0dp" android:layout_height="wrap_content"
              layout="@layout/secondary_song_display" app:layout_constraintEnd_toEndOf="parent"
