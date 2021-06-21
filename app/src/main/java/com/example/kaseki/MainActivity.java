@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        Utils.changeStatusBarColor(     this, R.color.transparent_black);
+        Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
 
