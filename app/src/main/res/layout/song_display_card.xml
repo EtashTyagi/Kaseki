@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:background="@android:color/black"
+>
+
+    <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp" tools:srcCompat="@drawable/added" android:id="@+id/songImage"
+            android:scaleType="fitCenter" android:layout_weight="1" app:srcCompat="@drawable/added"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" android:layout_weight="50" android:id="@+id/SongNameDisplay">
+        <TextView
+                android:text="Kya Baat Ay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/songNameTextView"
+                android:textColor="@android:color/white" android:fontFamily="sans-serif"
+                android:paddingLeft="5dp" android:fadeScrollbars="true" android:textSize="24sp"
+                android:singleLine="true" android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true" android:focusableInTouchMode="true" android:scrollHorizontally="true"
+                android:layout_weight="1"/>
+        <TextView
+                android:text="Hardy Boi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_orange_dark" android:paddingLeft="10dp"
+                android:fontFamily="sans-serif" android:paddingTop="0dp" android:layout_weight="1"
+                android:id="@+id/artistTextView"/>
+    </LinearLayout>
+    <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="match_parent" app:srcCompat="@drawable/outline_play_arrow_white_48"
+            android:id="@+id/imageButton"
+            android:layout_weight="1" android:background="@null" android:scaleType="fitCenter"
+    />
+</LinearLayout>

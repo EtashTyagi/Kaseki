@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@color/black">
+
+    <TextView
+            android:text="@string/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/searchTitle"
+            android:fontFamily="sans-serif" android:textColor="@color/white"
+            android:textSize="36sp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="24dp" app:layout_constraintHorizontal_bias="0.15"/>
+    <SearchView
+            android:id="@+id/searchBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:queryHint="Search for song"
+            android:iconifiedByDefault="false"
+            android:layout_alignParentTop="true"
+            android:background="?attr/popupMenuBackground" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            android:queryBackground="@android:color/transparent" android:submitBackground="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@+id/searchTitle" android:layout_marginTop="16dp">
+    </SearchView>
+    <include android:layout_width="0dp" android:layout_height="wrap_content"
+             layout="@layout/song_display_card" android:layout_weight="1"
+             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/searchBar" android:layout_marginTop="12dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/searchBar"
+            android:layout_marginTop="12dp" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/scroller"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
