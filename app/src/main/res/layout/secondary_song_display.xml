@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:background="@color/secondary_black"
-              android:orientation="vertical">
-
-    <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:id="@+id/progressBar" android:layout_weight="1"
-            android:background="@android:drawable/screen_background_light_transparent"/>
+<com.google.android.material.bottomappbar.BottomAppBar xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       app:contentInsetLeft="0dp"
+                                                       app:contentInsetStart="0dp"
+                                                       app:contentInsetRight="0dp"
+                                                       app:contentInsetEnd="0dp"
+                                                       android:layout_width="wrap_content"
+                                                       android:layout_height="wrap_content"
+                                                       android:background="@color/secondary_black"
+                                                       android:backgroundTint="@color/secondary_black"
+                                                       tools:ignore="BottomAppBar">
     <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_weight="1">
-        <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp" tools:srcCompat="@drawable/logo_icon" android:id="@+id/imageView"
-                android:scaleType="fitCenter"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:id="@+id/songProgressBar"
+                android:background="@android:drawable/screen_background_light_transparent"
+        />
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <TextView
-                    android:text=" Song name goes here make scrolling"
-                    android:layout_width="250dp"
-                    android:layout_height="32dp" android:id="@+id/textView4"
-                    android:textColor="@android:color/white" android:fontFamily="sans-serif"
-                    android:paddingLeft="10dp" android:fadeScrollbars="true" android:textSize="24sp"
-                    android:singleLine="true" android:ellipsize="marquee" android:marqueeRepeatLimit="marquee_forever"
-                    android:focusable="true" android:focusableInTouchMode="true" android:scrollHorizontally="true"/>
-            <TextView
-                    android:text="DEVICE"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent" android:id="@+id/textView5"
-                    android:textColor="@android:color/holo_orange_dark" android:paddingLeft="17dp"
-                    android:fontFamily="sans-serif" android:paddingTop="2dp"/>
+            <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp" tools:srcCompat="@drawable/logo_icon" android:id="@+id/songImage"
+                    android:scaleType="fitCenter" android:layout_weight="1"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:layout_weight="50" android:id="@+id/Song NameDisplay">
+                <TextView
+                        android:text=" Song name goes here make scrolling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/songNameTextView"
+                        android:textColor="@android:color/white" android:fontFamily="sans-serif"
+                        android:paddingLeft="5dp" android:fadeScrollbars="true" android:textSize="24sp"
+                        android:singleLine="true" android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusable="true" android:focusableInTouchMode="true" android:scrollHorizontally="true"
+                        android:layout_weight="1"/>
+                <TextView
+                        android:text="ARTIST"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_orange_dark" android:paddingLeft="10dp"
+                        android:fontFamily="sans-serif" android:paddingTop="0dp" android:layout_weight="1"
+                        android:id="@+id/artistTextView"/>
+            </LinearLayout>
+            <Space
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent" android:layout_weight="1"/>
+            <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent" app:srcCompat="@drawable/outline_favorite_border_white_48"
+                    android:id="@+id/favouriteButton" android:background="@null" android:scaleType="centerInside"
+                    android:layout_weight="2"/>
+            <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent" app:srcCompat="@drawable/outline_play_arrow_white_48"
+                    android:id="@+id/playPauseButton" android:layout_weight="2" android:background="@null"
+                    android:scaleType="fitCenter"/>
         </LinearLayout>
-        <Space
-                android:layout_width="2dp"
-                android:layout_height="match_parent" android:layout_weight="1"/>
-        <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="match_parent" app:srcCompat="@drawable/outline_favorite_border_white_48"
-                android:id="@+id/imageButton2" android:background="@null" android:scaleType="centerInside"/>
-        <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="match_parent" app:srcCompat="@drawable/outline_play_arrow_white_48"
-                android:id="@+id/imageButton3" android:layout_weight="1" android:background="@null"
-                android:scaleType="fitCenter"/>
     </LinearLayout>
-</LinearLayout>
+</com.google.android.material.bottomappbar.BottomAppBar>
