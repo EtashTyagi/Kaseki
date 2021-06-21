@@ -9,7 +9,7 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="516dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2" android:id="@+id/linearLayout3"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
         <ImageView
@@ -21,8 +21,8 @@
                 android:text="Kya Baat Ayy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView5" android:textSize="25sp"
-                android:fontFamily="@font/noto_sans_bold" android:textColor="#F8F8F8" android:paddingLeft="55sp"
-                android:paddingRight="30sp"/>
+                android:fontFamily="@font/noto_sans_bold" android:textColor="#F8F8F8" android:paddingLeft="0sp"
+                android:paddingRight="0sp" android:textAlignment="center"/>
         <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/seekBar" android:layout_marginTop="10sp"
@@ -34,7 +34,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp" android:id="@+id/linearLayout2">
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp" android:id="@+id/linearLayout2"
+    >
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="47dp" app:srcCompat="@drawable/down_arrow" android:id="@+id/imageView"
@@ -45,5 +46,24 @@
                 android:layout_height="wrap_content" android:id="@+id/textView4" android:layout_weight="1"
                 android:textAlignment="center" android:textColor="#F6F6F6" android:fontFamily="@font/noto_sans_bold"
                 android:textSize="17sp" android:paddingTop="10dp" android:paddingBottom="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/prev" android:id="@+id/imageView9"
+                android:layout_weight="1" android:scaleX="0.5" android:scaleY="0.5"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/play" android:id="@+id/imageView7"
+                android:layout_weight="1" android:scaleX="0.5" android:scaleY="0.5"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/next" android:id="@+id/imageView10"
+                android:layout_weight="1" android:scaleX="0.5" android:scaleY="0.5"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
