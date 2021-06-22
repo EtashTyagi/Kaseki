@@ -6,8 +6,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity" android:background="#000000">
-    <include android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/search_screen"
-             android:id="@+id/mainDisplayInclude"/>
+    <ViewFlipper
+
+            android:id="@+id/mainDisplayViewFlipper"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        <include android:layout_width="match_parent" android:layout_height="match_parent"
+                 layout="@layout/home_display" android:id="@+id/homeDisplayInclude"/>
+        <include android:layout_width="match_parent" android:layout_height="match_parent"
+                 layout="@layout/search_display" android:id="@+id/searchDisplayInclude"/>
+        <include android:layout_width="match_parent" android:layout_height="match_parent"
+                 layout="@layout/library_display" android:id="@+id/libraryDisplayInclude"/>
+    </ViewFlipper>
     <include android:layout_width="0dp" android:layout_height="wrap_content"
              layout="@layout/secondary_song_display" app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toTopOf="@+id/bottomBarInclude"

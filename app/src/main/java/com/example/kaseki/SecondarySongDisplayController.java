@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SecondarySongDisplayController {
     View parent;
-    AppCompatActivity mainActivity;
+    MainActivity mainActivity;
     ImageButton playPauseButton;
     boolean paused=true;
-    SecondarySongDisplayController(View parent, AppCompatActivity mainActivity) {
-        this.parent=parent;
+    SecondarySongDisplayController(MainActivity mainActivity) {
+        this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
         this.mainActivity=mainActivity;
         playPauseButton=parent.findViewById(R.id.playPauseButton);
         playPauseButton.setOnClickListener(this::onClick);
