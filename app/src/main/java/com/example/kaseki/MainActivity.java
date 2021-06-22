@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
-
+    BottomBarController bbc;
+    SecondarySongDisplayController secondarySongDisplayController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
         Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
+        bbc=new BottomBarController(findViewById(R.id.bottomBarInclude), this);
+        secondarySongDisplayController=new
+                SecondarySongDisplayController(findViewById(R.id.secondarySongDisplayInclude), this);
 
     }
 }
