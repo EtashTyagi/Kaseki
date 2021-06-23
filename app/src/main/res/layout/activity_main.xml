@@ -13,8 +13,9 @@
             android:layout_height="0dp"
             android:inAnimation="@android:anim/slide_in_left"
             android:outAnimation="@android:anim/slide_out_right" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/secondarySongDisplayInclude">
         <include android:layout_width="match_parent" android:layout_height="match_parent"
                  layout="@layout/home_display" android:id="@+id/homeDisplayInclude"/>
         <include android:layout_width="match_parent" android:layout_height="match_parent"

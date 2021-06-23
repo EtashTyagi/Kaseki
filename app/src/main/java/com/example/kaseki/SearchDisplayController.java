@@ -31,15 +31,24 @@ public class SearchDisplayController extends DisplayController {
                 return true;
             }
         });
-        for (int i = 0; i < 10; i++) {
-            Song mLog = new Song();
-            mLog.setSongName("SUMTHING");
-            mLog.setVideoID("XX");
-            searchList.add(mLog);
-            scrollerAdapter.notifyData(searchList);
-        }
+
     }
     public void populateSearchResult(Search result) {
         Log.d("TEST", result.toString());
+        ArrayList<String> titles = result.getTitle();
+        ArrayList<String> channel=result.getChannel_Title();
+        ArrayList<String> smallThumbnail=result.getSmall_thumbnail();
+        for (int i = 0; i < titles.size(); i++) {
+            Song mLog = new Song();
+            mLog.setSongName(titles.get(i));
+            mLog.setVideoID(channel.get(i));
+            if (i < smallThumbnail.size()) {
+                mLog.setThumbnailPath(smallThumbnail.get(i));
+            }
+
+            searchList.add(mLog);
+            scrollerAdapter.notifyData(searchList);
+        }
+
     }
 }

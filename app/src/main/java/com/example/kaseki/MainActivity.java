@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         View test = findViewById(R.id.searchDisplayInclude);
         ArrayList<Song> searchList=new ArrayList<>();
         RecyclerView scroller = test.findViewById(R.id.scroller);
-        SongDisplayAdapter scrollerAdapter = new SongDisplayAdapter(searchList);
+        SongDisplayAdapter scrollerAdapter = new SongDisplayAdapter(searchList, this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         scroller.setLayoutManager(layoutManager);

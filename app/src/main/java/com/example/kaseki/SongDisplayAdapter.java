@@ -1,23 +1,20 @@
 package com.example.kaseki;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.SongDisplayHolder> {
     private ArrayList<Song> myList;
+    private MainActivity mainActivity;
     int mLastPosition = 0;
-    public SongDisplayAdapter(ArrayList<Song> myList) {
+    public SongDisplayAdapter(ArrayList<Song> myList, MainActivity mainActivity) {
         this.myList = myList;
+        this.mainActivity=mainActivity;
     }
     public SongDisplayHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.song_display_card, parent, false);
@@ -28,15 +25,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         holder.songNameTextView.setText(myList.get(position).getSongName());
         holder.artistNameTextView.setText(myList.get(position).getVideoID());
         //TODO: IMAGE
-//        try {
-//            File f=new File(myList.get(position).getThumbnailPath());
-//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-//            holder.songImage.setImageBitmap(b);
-//        }
-//        catch (FileNotFoundException e)
-//        {
-//            e.printStackTrace();
-//        }
+//        Utils.setBitmapFromURL(myList.get(position).getThumbnailPath(), holder.songImage, mainActivity);
         mLastPosition =position;
     }
     @Override

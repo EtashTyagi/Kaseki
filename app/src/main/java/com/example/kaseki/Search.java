@@ -113,6 +113,16 @@ public class Search {
         queue.add(searchRequest);
     }
 
+    public ArrayList<String> getTitle() {
+        return title;
+    }
+    public ArrayList<String> getSmall_thumbnail() {
+        return small_thumbnail;
+    }
+    public ArrayList<String> getChannel_Title() {
+        return channel_Title;
+    }
+
     @Override
     public String toString() {
         return "Search{" +
