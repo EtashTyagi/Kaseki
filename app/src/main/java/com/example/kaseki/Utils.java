@@ -3,7 +3,11 @@ package com.example.kaseki;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.LayoutInflater;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class Utils {
 
@@ -32,6 +36,5 @@ public class Utils {
         hsv[2] *= 0.8f;
         return Color.HSVToColor(hsv);
     }
-
 }
 

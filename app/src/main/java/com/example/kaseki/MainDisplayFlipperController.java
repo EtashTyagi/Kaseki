@@ -2,6 +2,7 @@ package com.example.kaseki;
 
 import android.widget.ViewFlipper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainDisplayFlipperController {
@@ -9,6 +10,7 @@ public class MainDisplayFlipperController {
     private MainActivity mainActivity;
     private HashMap<Class<? extends DisplayController>, Integer> displayControllersToID
             =new HashMap<>();
+    private HashMap<Integer, DisplayController> idToObject=new HashMap<>();
     private int currentSelectedID=0;
 
     MainDisplayFlipperController(MainActivity mainActivity) {
@@ -40,6 +42,15 @@ public class MainDisplayFlipperController {
             }
         }
         currentSelectedID=nextID;
+    }
+    public void initiateHomeDisplay() {
+        idToObject.put(0, new HomeDisplayController(mainActivity));
+    }
+    public void initiateSearchDisplay(ArrayList<Song> searchList, SongDisplayAdapter songDisplayAdapter) {
+        idToObject.put(1, new SearchDisplayController(mainActivity, songDisplayAdapter, searchList));
+    }
+    public void initiateLibraryDisplay() {
+        idToObject.put(2, new LibraryDisplayController(mainActivity));
     }
     private void flipNext() {
         parent.setInAnimation(mainActivity.getBaseContext(),

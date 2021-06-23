@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
             <ImageView
                     android:layout_width="64dp"
-                    android:layout_height="64dp" tools:srcCompat="@drawable/added" android:id="@+id/songImage"
+                    android:layout_height="64dp" tools:srcCompat="@drawable/added" android:id="@+id/songImageSD"
                     android:scaleType="fitCenter" android:layout_weight="1" app:srcCompat="@drawable/added"/>
             <LinearLayout
                     android:orientation="vertical"
@@ -37,7 +37,7 @@
                 <TextView
                         android:text=" Song name goes here make scrolling"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:id="@+id/songNameTextView"
+                        android:layout_height="wrap_content" android:id="@+id/songNameTextViewSD"
                         android:textColor="@android:color/white" android:fontFamily="sans-serif"
                         android:paddingLeft="5dp" android:fadeScrollbars="true" android:textSize="24sp"
                         android:singleLine="true" android:ellipsize="marquee"
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/holo_orange_dark" android:paddingLeft="10dp"
                         android:fontFamily="sans-serif" android:paddingTop="0dp" android:layout_weight="1"
-                        android:id="@+id/artistTextView"/>
+                        android:id="@+id/artistTextViewSD"/>
             </LinearLayout>
             <Space
                     android:layout_width="2dp"
@@ -59,12 +59,12 @@
                     android:layout_width="48dp"
                     android:layout_height="match_parent" app:srcCompat="@drawable/outline_favorite_border_white_48"
                     android:id="@+id/favouriteButton" android:background="@null" android:scaleType="centerInside"
-                    android:layout_weight="2"/>
+                    android:layout_weight="2" android:padding="4dp"/>
             <ImageButton
                     android:layout_width="48dp"
-                    android:layout_height="match_parent" app:srcCompat="@drawable/outline_play_arrow_white_48"
+                    android:layout_height="match_parent" app:srcCompat="@drawable/play"
                     android:id="@+id/playPauseButton" android:layout_weight="2" android:background="@null"
-                    android:scaleType="fitCenter"/>
+                    android:scaleType="fitCenter" android:padding="10dp"/>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.bottomappbar.BottomAppBar>

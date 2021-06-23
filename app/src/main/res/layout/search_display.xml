@@ -14,7 +14,7 @@
             android:textSize="36sp" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="24dp" app:layout_constraintHorizontal_bias="0.15"
-            android:layout_marginStart="35dp" android:layout_marginEnd="35dp"/>
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"/>
     <SearchView
             android:id="@+id/searchBar"
             android:layout_width="0dp"
@@ -27,13 +27,8 @@
             app:layout_constraintHorizontal_bias="0.494"
             android:queryBackground="@android:color/transparent" android:submitBackground="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/searchTitle" android:layout_marginTop="16dp"
-            android:layout_marginStart="35dp" android:layout_marginEnd="35dp">
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp">
     </SearchView>
-    <include android:layout_width="0dp" android:layout_height="wrap_content"
-             layout="@layout/song_display_card" android:layout_weight="1"
-             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintTop_toBottomOf="@+id/searchBar" android:layout_marginTop="20dp"
-             app:layout_constraintHorizontal_bias="0.0"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"

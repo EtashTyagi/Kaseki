@@ -3,28 +3,29 @@ package com.example.kaseki;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class SecondarySongDisplayController {
-    View parent;
-    MainActivity mainActivity;
-    ImageButton playPauseButton;
-    TextView songNameTextView;
-    boolean paused=true;
+    private View parent;
+    private MainActivity mainActivity;
+    private ImageButton playPauseButton;
+    private TextView songNameTextView;
+    private static final int PLAY_IMAGE=R.drawable.play;
+    private static final int PAUSE_IMAGE=R.drawable.pause;
+    private boolean paused=true;
     SecondarySongDisplayController(MainActivity mainActivity) {
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
         this.mainActivity=mainActivity;
         playPauseButton=parent.findViewById(R.id.playPauseButton);
-        songNameTextView=parent.findViewById(R.id.songNameTextView);
+        songNameTextView=parent.findViewById(R.id.songNameTextViewSD);
         songNameTextView.setSelected(true);
         playPauseButton.setOnClickListener(this::onClick);
     }
     private void onClick(View view) {
         if (view==playPauseButton) {
             if (paused) {
-                playPauseButton.setImageResource(R.drawable.outline_pause_white_48);
+                playPauseButton.setImageResource(PAUSE_IMAGE);
             } else {
-                playPauseButton.setImageResource(R.drawable.outline_play_arrow_white_48);
+                playPauseButton.setImageResource(PLAY_IMAGE);
             }
             paused=!paused;
         }
