@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         //example
         Downloader.download("sAHbwzkrlmg");
+        Search search = new Search();
+        search.call(this);
 
     }
     public void changeMainDisplayController(Class<? extends DisplayController> type) {
