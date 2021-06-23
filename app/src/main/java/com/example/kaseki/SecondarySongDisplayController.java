@@ -2,17 +2,21 @@ package com.example.kaseki;
 
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SecondarySongDisplayController {
     View parent;
     MainActivity mainActivity;
     ImageButton playPauseButton;
+    TextView songNameTextView;
     boolean paused=true;
     SecondarySongDisplayController(MainActivity mainActivity) {
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
         this.mainActivity=mainActivity;
         playPauseButton=parent.findViewById(R.id.playPauseButton);
+        songNameTextView=parent.findViewById(R.id.songNameTextView);
+        songNameTextView.setSelected(true);
         playPauseButton.setOnClickListener(this::onClick);
     }
     private void onClick(View view) {
