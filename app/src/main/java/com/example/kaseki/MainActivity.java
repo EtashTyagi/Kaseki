@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         //Download example
         Downloader.download("sAHbwzkrlmg");
         Search search = new Search();
-        search.call(this,"attention");
     }
     private void initiateBottomBar() {
         bottomBarController =new BottomBarController(this);
