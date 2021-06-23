@@ -1,5 +1,6 @@
 package com.example.kaseki;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +37,6 @@ public class BottomBarController {
             } else if (view==libraryButton) {
                 mainActivity.changeMainDisplayController(LibraryDisplayController.class);
             }
-
         }
     }
 }
