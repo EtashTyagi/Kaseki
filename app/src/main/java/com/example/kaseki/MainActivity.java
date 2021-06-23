@@ -1,18 +1,24 @@
 package com.example.kaseki;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.io.Console;
+import java.io.File;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private BottomBarController bottomBarController;
     private SecondarySongDisplayController secondarySongDisplayController;
     private MainDisplayFlipperController mainDisplayFlipperController;
-    private Download_Manager Downloader;
+    private static Download_Manager Downloader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         secondarySongDisplayController=new SecondarySongDisplayController(this);
 
         mainDisplayFlipperController=new MainDisplayFlipperController(this);
+
+        //example
+        Downloader.download("sAHbwzkrlmg");
 
     }
     public void changeMainDisplayController(Class<? extends DisplayController> type) {

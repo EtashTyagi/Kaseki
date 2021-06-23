@@ -7,6 +7,7 @@ import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
 
 import java.io.File;
+import java.net.URI;
 
 public class Download_Manager {
     private File path;
@@ -30,18 +31,26 @@ public class Download_Manager {
         YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+video_id);
 
         //Setting the options
-        request.addOption("-o", path.getAbsolutePath() + "/"+video_id+".mp3");
-        request.addOption("-f","bestaudio[ext=m4a]");
+        Runnable download = new Runnable() {
+            @Override
+            public void run() {
+                request.addOption("-o", path.getAbsolutePath() + "/"+video_id+".mp3");
+                request.addOption("-f","bestaudio[ext=m4a]");
 
-        try {
-            YoutubeDL.getInstance().execute(request, (progress, etaInSeconds) -> {
-                System.out.println(String.valueOf(progress) + "% (ETA " + String.valueOf(etaInSeconds) + " seconds)");
-            });
-        } catch (YoutubeDLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                try {
+                    YoutubeDL.getInstance().execute(request, (progress, etaInSeconds) -> {
+                        System.out.println(String.valueOf(progress) + "% (ETA " + String.valueOf(etaInSeconds) + " seconds)");
+                    });
+                } catch (YoutubeDLException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Thread thread = new Thread(download);
+        thread.start();
 
         return true;
     }
