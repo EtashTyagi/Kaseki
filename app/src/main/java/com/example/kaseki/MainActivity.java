@@ -52,15 +52,14 @@ public class MainActivity extends AppCompatActivity {
     private void initiateMainDisplay() {
         mainDisplayFlipperController=new MainDisplayFlipperController(this);
         View test = findViewById(R.id.searchDisplayInclude);
-        ArrayList<Song> searchList=new ArrayList<>();
         RecyclerView scroller = test.findViewById(R.id.scroller);
-        SongDisplayAdapter scrollerAdapter = new SongDisplayAdapter(searchList, this);
+        SongDisplayAdapter scrollerAdapter = new SongDisplayAdapter(this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         scroller.setLayoutManager(layoutManager);
         scroller.setAdapter(scrollerAdapter);
         mainDisplayFlipperController.initiateHomeDisplay();
-        mainDisplayFlipperController.initiateSearchDisplay(searchList, scrollerAdapter);
+        mainDisplayFlipperController.initiateSearchDisplay(scrollerAdapter);
         mainDisplayFlipperController.initiateLibraryDisplay();
     }
     public void changeMainDisplayController(Class<? extends DisplayController> type) {

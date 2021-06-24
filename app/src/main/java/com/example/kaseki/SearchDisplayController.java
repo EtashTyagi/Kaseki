@@ -8,14 +8,12 @@ import java.util.ArrayList;
 
 public class SearchDisplayController extends DisplayController {
     private SongDisplayAdapter scrollerAdapter;
-    private ArrayList<Song> searchList;
     private SearchView searchBar;
 
-    SearchDisplayController(MainActivity mainActivity, SongDisplayAdapter scrollerAdapter, ArrayList<Song> searchList) {
+    SearchDisplayController(MainActivity mainActivity, SongDisplayAdapter scrollerAdapter) {
         super(mainActivity);
         this.parent=this.parent.findViewById(R.id.searchDisplayInclude);
         this.searchBar=parent.findViewById(R.id.searchBar);
-        this.searchList=searchList;
         this.scrollerAdapter=scrollerAdapter;
         SearchDisplayController cur=this;
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -27,28 +25,22 @@ public class SearchDisplayController extends DisplayController {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Search search = new Search();
+                scrollerAdapter.clear();
                 search.call(mainActivity, query, cur);
+                Song dummy = new Song();
+                dummy.setArtist("Tommy Boy");
+                dummy.setVideoID("fPO76Jlnz6c");
+                dummy.setSongName("Coolio - Gangsta's Paradise (feat. L.V.) [Official Music Video]");
+                dummy.setThumbnailPath("https://i.ytimg.com/vi/fPO76Jlnz6c/maxresdefault.jpg");
+                populateSong(dummy);
                 return true;
             }
         });
 
     }
-    public void populateSearchResult(Search result) {
+
+    public void populateSong(Song result) {
         Log.d("TEST", result.toString());
-        ArrayList<String> titles = result.getTitle();
-        ArrayList<String> channel=result.getChannel_Title();
-        ArrayList<String> smallThumbnail=result.getSmall_thumbnail();
-        for (int i = 0; i < titles.size(); i++) {
-            Song mLog = new Song();
-            mLog.setSongName(titles.get(i));
-            mLog.setVideoID(channel.get(i));
-            if (i < smallThumbnail.size()) {
-                mLog.setThumbnailPath(smallThumbnail.get(i));
-            }
-
-            searchList.add(mLog);
-            scrollerAdapter.notifyData(searchList);
-        }
-
+        scrollerAdapter.addElement(result);
     }
 }

@@ -7,6 +7,7 @@ public class Song implements Serializable {
     private String path;
     private String songName;
     private String thumbnailPath;
+    private String artist;
 
     public String getVideoID() {
         return videoID;
@@ -38,5 +39,13 @@ public class Song implements Serializable {
 
     public void setThumbnailPath(String thumbnailPath) {
         this.thumbnailPath = thumbnailPath;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 }

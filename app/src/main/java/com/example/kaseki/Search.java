@@ -13,19 +13,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Search {
     private String api_key;
     private String search;
     private String Description_part1;
     private String Description_part2;
-    private ArrayList<String> video_ids;
-    private ArrayList<String> small_thumbnail;
-    private ArrayList<String> large_thumbnail;
-    private ArrayList<String> title;
-    private ArrayList<String> channel_Title;
-    private int searchSize;
+    private AtomicInteger searchSize;
 
     Search(){
         api_key = "AIzaSyDBT_mj6XgfCQYXuipuhsgSAELknxWvRyg";
@@ -37,36 +34,28 @@ public class Search {
     public void call(Context context, String request, SearchDisplayController sdc){
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = search + request;
-        video_ids = new ArrayList<>();
-        small_thumbnail = new ArrayList<>();
-        large_thumbnail = new ArrayList<>();
-        title = new ArrayList<>();
-        channel_Title = new ArrayList<>();
-        Search srch=this;
+        Hashtable<String, Boolean> done=new Hashtable<>();
         // Request a string response from the provided URL.
         StringRequest searchRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        JSONObject res;
-                        try {
-                            res = new JSONObject(response);
-                            JSONArray result = res.getJSONArray("items");
-                            searchSize=result.length();
-                            if (searchSize == 0) {
-                                sdc.populateSearchResult(srch);
+                response -> {
+                    JSONObject res;
+                    try {
+                        res = new JSONObject(response);
+                        JSONArray result = res.getJSONArray("items");
+                        searchSize=new AtomicInteger(result.length());
+                        for(int i=0;i<result.length();i++){
+                            JSONObject video = result.getJSONObject(i).getJSONObject("id");
+                            String video_id = video.get("videoId").toString();
+                            Song toAdd=(new Song());
+                            toAdd.setVideoID((video_id));
+                            if (!done.containsKey(video_id)) {
+                                add_des(context,video_id, sdc, toAdd);
+                                Log.d("CONTAINS", done.toString());
+                                done.put(video_id, Boolean.TRUE);
                             }
-                            for(int i=0;i<result.length();i++){
-                                JSONObject video = result.getJSONObject(i).getJSONObject("id");
-                                String video_id = video.get("videoId").toString();
-                                video_ids.add(video_id);
-                                Log.d("videoids",video_ids.toString());
-                                add_des(context,video_id, sdc);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -76,11 +65,10 @@ public class Search {
         });
         queue.add(searchRequest);
     }
-    public void add_des(Context context, String video_id, SearchDisplayController sdc){
+    private void add_des(Context context, String video_id, SearchDisplayController sdc, Song toAdd){
         String url = Description_part1+video_id+Description_part2;
         RequestQueue queue = Volley.newRequestQueue(context);
         Log.d("queue",queue.toString());
-        Search srch=this;
         StringRequest searchRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -90,16 +78,15 @@ public class Search {
                             res = new JSONObject(response);
                             JSONObject result = res.getJSONArray("items").getJSONObject(0);
                             JSONObject snippet = result.getJSONObject("snippet");
-                            title.add(snippet.get("title").toString());
-                            channel_Title.add(snippet.get("channelTitle").toString());
+                            toAdd.setSongName(snippet.get("title").toString());
+                            toAdd.setArtist(snippet.get("channelTitle").toString());
                             JSONObject thumbnail = snippet.getJSONObject("thumbnails");
                             JSONObject d_efault = thumbnail.getJSONObject("default");
                             JSONObject standard = thumbnail.getJSONObject("standard");
-                            small_thumbnail.add(d_efault.get("url").toString());
-                            large_thumbnail.add(standard.get("url").toString());
-                            if (title.size()==searchSize) {
-                                sdc.populateSearchResult(srch);
-                            }
+                            toAdd.setThumbnailPath(d_efault.get("url").toString());
+                            sdc.populateSong(toAdd);
+                            Log.d("SEARCH_SIZE", ""+searchSize.get());
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -111,30 +98,5 @@ public class Search {
             }
         });
         queue.add(searchRequest);
-    }
-
-    public ArrayList<String> getTitle() {
-        return title;
-    }
-    public ArrayList<String> getSmall_thumbnail() {
-        return small_thumbnail;
-    }
-    public ArrayList<String> getChannel_Title() {
-        return channel_Title;
-    }
-
-    @Override
-    public String toString() {
-        return "Search{" +
-                "api_key='" + api_key + '\'' +
-                ", search='" + search + '\'' +
-                ", Description_part1='" + Description_part1 + '\'' +
-                ", Description_part2='" + Description_part2 + '\'' +
-                ", video_ids=" + video_ids +
-                ", small_thumbnail=" + small_thumbnail +
-                ", large_thumbnail=" + large_thumbnail +
-                ", title=" + title +
-                ", channel_Title=" + channel_Title +
-                '}';
     }
 }

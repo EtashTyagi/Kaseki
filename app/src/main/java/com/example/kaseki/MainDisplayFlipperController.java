@@ -46,8 +46,8 @@ public class MainDisplayFlipperController {
     public void initiateHomeDisplay() {
         idToObject.put(0, new HomeDisplayController(mainActivity));
     }
-    public void initiateSearchDisplay(ArrayList<Song> searchList, SongDisplayAdapter songDisplayAdapter) {
-        idToObject.put(1, new SearchDisplayController(mainActivity, songDisplayAdapter, searchList));
+    public void initiateSearchDisplay(SongDisplayAdapter songDisplayAdapter) {
+        idToObject.put(1, new SearchDisplayController(mainActivity, songDisplayAdapter));
     }
     public void initiateLibraryDisplay() {
         idToObject.put(2, new LibraryDisplayController(mainActivity));
