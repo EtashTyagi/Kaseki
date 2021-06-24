@@ -49,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
     private void initiateSecondarySongDisplay() {
         secondarySongDisplayController=new SecondarySongDisplayController(this);
     }
+    public BottomBarController getBottomBarController() {
+        return bottomBarController;
+    }
+    public SecondarySongDisplayController getSecondarySongDisplayController() {
+        return secondarySongDisplayController;
+    }
+
     private void initiateMainDisplay() {
         mainDisplayFlipperController=new MainDisplayFlipperController(this);
         View test = findViewById(R.id.searchDisplayInclude);

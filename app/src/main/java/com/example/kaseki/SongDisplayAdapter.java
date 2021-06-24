@@ -1,5 +1,6 @@
 package com.example.kaseki;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
-public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.SongDisplayHolder> {
+public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> {
     private ArrayList<Song> myList;
     private HashSet<String> contains;
+    private HashMap<Song, SongDisplayCardController> songToControllers;
     private MainActivity mainActivity;
     int mLastPosition = 0;
     public SongDisplayAdapter(MainActivity mainActivity) {
         this.myList = new ArrayList<>();
+        songToControllers=new HashMap<>();
         this.mainActivity=mainActivity;
     }
     @NonNull
@@ -27,10 +31,15 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
     }
     @Override
     public void onBindViewHolder(SongDisplayHolder holder, final int position) {
-        holder.songNameTextView.setText(myList.get(position).getSongName());
-        holder.artistNameTextView.setText(myList.get(position).getArtist());
-        //TODO: IMAGE
-        Picasso.get().load(myList.get(position).getThumbnailPath()).into(holder.songImage);
+        holder.getSongNameTextView().setText(myList.get(position).getSongName());
+        holder.getArtistNameTextView().setText(myList.get(position).getArtist());
+        Picasso.get().load(myList.get(position).getThumbnailPath()).into(holder.getSongImage());
+        Log.d("IMAGE_LOAD", myList.get(position).getThumbnailPath());
+        //Add Controller
+        if (!songToControllers.containsKey(myList.get(position))) {
+            songToControllers.put(myList.get(position),
+                    new SongDisplayCardController(mainActivity, holder.getParent(), myList.get(position)));
+        }
         mLastPosition =position;
     }
     @Override
@@ -49,19 +58,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayAdapter.
         contains=new HashSet<>();
         mLastPosition=0;
         notifyDataSetChanged();
-    }
-    static class SongDisplayHolder extends RecyclerView.ViewHolder {
-        private final TextView songNameTextView;
-        private final TextView artistNameTextView;
-        public ImageView songImage;
-        public SongDisplayHolder(final View parent) {
-            super(parent);
-            songNameTextView = parent.findViewById(R.id.songNameTextViewSD);
-            artistNameTextView= parent.findViewById(R.id.artistTextViewSD);
-            songImage = parent.findViewById(R.id.songImageSD);
-            LinearLayout mainLayout = parent.findViewById(R.id.songDisplayMainLayout);
-            mainLayout.setOnClickListener(v ->
-                    Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show());
-        }
+        songToControllers=new HashMap<>();
     }
 }

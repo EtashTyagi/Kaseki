@@ -41,7 +41,7 @@
         <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="match_parent" app:srcCompat="@drawable/play"
-                android:id="@+id/imageButton"
+                android:id="@+id/playPauseImageButtonSD"
                 android:layout_weight="1" android:background="@null" android:scaleType="fitCenter"
                 android:padding="12dp"/>
     </LinearLayout>
