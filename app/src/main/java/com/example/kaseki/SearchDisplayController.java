@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class SearchDisplayController extends DisplayController {
     private SongDisplayAdapter scrollerAdapter;
     private SearchView searchBar;
+    private static Search search;
 
     SearchDisplayController(MainActivity mainActivity, SongDisplayAdapter scrollerAdapter) {
         super(mainActivity);
@@ -24,7 +25,7 @@ public class SearchDisplayController extends DisplayController {
             }
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Search search = new Search();
+                search = new Search();
                 scrollerAdapter.clear();
                 search.call(mainActivity, query, cur);
                 //TODO: REMOVE
@@ -34,7 +35,6 @@ public class SearchDisplayController extends DisplayController {
                 dummy.setSongName("Coolio - Gangsta's Paradise (feat. L.V.) [Official Music Video]");
                 dummy.setThumbnailPath("https://i.ytimg.com/vi/fPO76Jlnz6c/maxresdefault.jpg");
                 populateSong(dummy);
-
                 Song dummy2 = new Song();
                 dummy2.setArtist("DMX");
                 dummy2.setVideoID("fGx6K90TmCI");
@@ -50,5 +50,8 @@ public class SearchDisplayController extends DisplayController {
     public void populateSong(Song result) {
         Log.d("TEST", result.toString());
         scrollerAdapter.addElement(result);
+    }
+    public static Search getSearch(){
+        return search;
     }
 }

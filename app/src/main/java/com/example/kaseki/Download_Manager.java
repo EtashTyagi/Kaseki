@@ -7,15 +7,12 @@ import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
 
 import java.io.File;
-import java.net.URI;
 
 public class Download_Manager {
     private File path;
-
     public void initialize(Application application,String uri){
 
         //Initializing Youtube -dl
-
         try {
             YoutubeDL.getInstance().init(application);
         } catch (YoutubeDLException e) {

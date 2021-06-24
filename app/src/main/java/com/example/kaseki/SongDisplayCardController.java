@@ -1,25 +1,38 @@
 package com.example.kaseki;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import java.util.Vector;
 
 public class SongDisplayCardController {
     private View parent;
     private MainActivity mainActivity;
     private TextView songNameTextView;
     private ImageButton playPauseImageButton;
+    private ImageButton download_ImageButton;
     private Song song;
     private static final int PLAY_BUTTON=R.drawable.play;
     private static final int PAUSE_BUTTON=R.drawable.pause;
     private boolean paused=true;
     private static SongDisplayCardController curPlaying=null;
+    TextView song_text;
     SongDisplayCardController(MainActivity mainActivity, View parent, Song song) {
         this.mainActivity=mainActivity;
         this.parent=parent;
         this.song=song;
+        song_text =parent.findViewById(R.id.songNameTextViewSD);
         songNameTextView=parent.findViewById(R.id.songNameTextViewSD);
         playPauseImageButton=parent.findViewById(R.id.playPauseImageButtonSD);
+        download_ImageButton = parent.findViewById(R.id.donwload_button);
         songNameTextView.setSelected(true);
+        download_ImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Download();
+            }
+        });
         playPauseImageButton.setOnClickListener((view)->{
             if (paused) {
                 play();
@@ -29,6 +42,15 @@ public class SongDisplayCardController {
             mainActivity.getSecondarySongDisplayController().setToSong(song);
             paused=!paused;
         });
+    }
+    public void Download(){
+        Download_Manager downloader = MainActivity.getDownloader();
+        Vector<Song> searched = SearchDisplayController.getSearch().getSearched_songs();
+        String video_id = "";
+        for(Song song: searched){
+            if(song.getSongName().equals(song_text.getText().toString())) video_id = song.getVideoID();
+        }
+        downloader.download(video_id);
     }
     public static void pauseCurPlaying() {
         if (curPlaying!=null) {
@@ -47,6 +69,7 @@ public class SongDisplayCardController {
             curPlaying.playPauseImageButton.setImageResource(PLAY_BUTTON);
             curPlaying.paused=true;
         }
+        Download();
         curPlaying=this;
         playPauseImageButton.setImageResource(PAUSE_BUTTON);
         mainActivity.getSecondarySongDisplayController().play();

@@ -12,10 +12,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/slide_out_right" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/bottomBarInclude">
+            android:outAnimation="@android:anim/slide_out_right"
+            app:layout_constraintBottom_toTopOf="@+id/secondarySongDisplayInclude"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
         <include android:layout_width="match_parent" android:layout_height="match_parent"
                  layout="@layout/home_display" android:id="@+id/homeDisplayInclude"/>
         <include android:layout_width="match_parent" android:layout_height="match_parent"
@@ -24,12 +24,14 @@
                  layout="@layout/library_display" android:id="@+id/libraryDisplayInclude"/>
     </ViewFlipper>
     <include android:layout_width="0dp" android:layout_height="wrap_content"
-             layout="@layout/secondary_song_display" app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toTopOf="@+id/bottomBarInclude"
-             android:layout_marginBottom="4dp" app:layout_constraintHorizontal_bias="0.0"
-             android:id="@+id/secondarySongDisplayInclude"/>
+             layout="@layout/secondary_song_display"
+             android:id="@+id/secondarySongDisplayInclude"
+             app:layout_constraintTop_toBottomOf="@+id/mainDisplayViewFlipper" android:layout_marginBottom="4dp"
+             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/bottomBarInclude"
+             app:layout_constraintStart_toStartOf="parent"/>
     <include android:layout_width="0dp" android:layout_height="wrap_content" layout="@layout/bottom_bar"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-             android:id="@+id/bottomBarInclude"/>
+             android:id="@+id/bottomBarInclude"
+             app:layout_constraintTop_toBottomOf="@+id/secondarySongDisplayInclude"
+             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

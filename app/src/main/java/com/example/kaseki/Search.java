@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Search {
@@ -23,9 +24,10 @@ public class Search {
     private String Description_part1;
     private String Description_part2;
     private AtomicInteger searchSize;
+    private Vector<Song> searched_songs;
 
     Search(){
-        api_key = "AIzaSyDBT_mj6XgfCQYXuipuhsgSAELknxWvRyg";
+        api_key = "AIzaSyAkr4mw8HUDhWXMgntJWBeL8e-cqtZPIPw";
         Description_part1 ="https://www.googleapis.com/youtube/v3/videos?id=";
         Description_part2 = "&key="+api_key+"&part=snippet";
         search = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&q=";
@@ -34,6 +36,7 @@ public class Search {
     public void call(Context context, String request, SearchDisplayController sdc){
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = search + request;
+        searched_songs = new Vector<>();
         Hashtable<String, Boolean> done=new Hashtable<>();
         // Request a string response from the provided URL.
         StringRequest searchRequest = new StringRequest(Request.Method.GET, url,
@@ -47,7 +50,7 @@ public class Search {
                             JSONObject video = result.getJSONObject(i).getJSONObject("id");
                             String video_id = video.get("videoId").toString();
                             Song toAdd=(new Song());
-                            toAdd.setVideoID((video_id));
+                            toAdd.setVideoID(video_id);
                             if (!done.containsKey(video_id)) {
                                 add_des(context,video_id, sdc, toAdd);
                                 Log.d("CONTAINS", done.toString());
@@ -68,7 +71,6 @@ public class Search {
     private void add_des(Context context, String video_id, SearchDisplayController sdc, Song toAdd){
         String url = Description_part1+video_id+Description_part2;
         RequestQueue queue = Volley.newRequestQueue(context);
-        Log.d("queue",queue.toString());
         StringRequest searchRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -84,6 +86,7 @@ public class Search {
                             JSONObject d_efault = thumbnail.getJSONObject("default");
                             JSONObject standard = thumbnail.getJSONObject("standard");
                             toAdd.setThumbnailPath(d_efault.get("url").toString());
+                            searched_songs.add(toAdd);
                             sdc.populateSong(toAdd);
                             Log.d("SEARCH_SIZE", ""+searchSize.get());
 
@@ -98,5 +101,9 @@ public class Search {
             }
         });
         queue.add(searchRequest);
+    }
+
+    public Vector<Song> getSearched_songs() {
+        return searched_songs;
     }
 }

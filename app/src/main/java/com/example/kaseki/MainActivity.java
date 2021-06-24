@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         initiateSecondarySongDisplay();
         //Main Display
         initiateMainDisplay();
-        //Download example
-        Downloader.download("sAHbwzkrlmg");
-        Search search = new Search();
     }
     private void initiateBottomBar() {
         bottomBarController =new BottomBarController(this);
@@ -71,5 +68,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void changeMainDisplayController(Class<? extends DisplayController> type) {
         mainDisplayFlipperController.flipToDisplay(type);
+    }
+
+    public static Download_Manager getDownloader() {
+        return Downloader;
     }
 }
