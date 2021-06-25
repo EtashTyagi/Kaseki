@@ -83,9 +83,8 @@ public class Search {
                             toAdd.setSongName(snippet.get("title").toString());
                             toAdd.setArtist(snippet.get("channelTitle").toString());
                             JSONObject thumbnail = snippet.getJSONObject("thumbnails");
-                            JSONObject d_efault = thumbnail.getJSONObject("default");
                             JSONObject standard = thumbnail.getJSONObject("standard");
-                            toAdd.setThumbnailPath(d_efault.get("url").toString());
+                            toAdd.setThumbnailPath(standard.get("url").toString());
                             searched_songs.add(toAdd);
                             sdc.populateSong(toAdd);
                             Log.d("SEARCH_SIZE", ""+searchSize.get());
