@@ -72,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
     public void changeMainDisplayController(Class<? extends DisplayController> type) {
         mainDisplayFlipperController.flipToDisplay(type);
     }
-
     public static Download_Manager getDownloader() {
         return Downloader;
+    }
+    public static Vector<Playlist> getPlaylists() {
+        return playlists;
     }
 }

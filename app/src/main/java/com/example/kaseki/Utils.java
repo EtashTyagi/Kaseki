@@ -15,6 +15,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Utils {
 
@@ -58,6 +59,40 @@ public class Utils {
             }
         });
         thread.start();
+    }
+    public static boolean serializePlaylist(Vector<Playlist> object, String path) {
+        try {
+            FileOutputStream file = new FileOutputStream(path);
+            ObjectOutputStream out = new ObjectOutputStream(file);
+            out.writeObject(object);
+            out.close();
+            file.close();
+            return true;
+        } catch (Exception e)  {
+            Log.d("SERIALIZATION", e.toString());
+            return false;
+        }
+    }
+    public static Vector<Playlist> deserializePlaylist(String filename) {
+        Vector<Playlist> object;
+        try {
+            FileInputStream file = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            // Method for deserialization of object
+            object = (Vector<Playlist>) in.readObject();
+
+            in.close();
+            file.close();
+
+        } catch(Exception e) {
+            Log.d("Deserialized",e.toString());
+            Playlist defaultPlay = new Playlist("Default");
+            Vector<Playlist> playlists = new Vector<>();
+            playlists.add(defaultPlay);
+            return playlists;
+        }
+        return object;
     }
 }
 
