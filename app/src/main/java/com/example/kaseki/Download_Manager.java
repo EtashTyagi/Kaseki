@@ -1,7 +1,10 @@
 package com.example.kaseki;
 
 import android.app.Application;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
+import com.google.android.material.shape.MarkerEdgeTreatment;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
@@ -11,7 +14,6 @@ import java.io.File;
 public class Download_Manager {
     private File path;
     public void initialize(Application application,String uri){
-
         //Initializing Youtube -dl
         try {
             YoutubeDL.getInstance().init(application);
@@ -24,14 +26,14 @@ public class Download_Manager {
 
     }
 
-    public boolean download(String video_id){
-        YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+video_id);
+    public boolean download(Song song){
+        YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+song.getVideoID());
 
         //Setting the options
         Runnable download = new Runnable() {
             @Override
             public void run() {
-                request.addOption("-o", path.getAbsolutePath() + "/"+video_id+".mp3");
+                request.addOption("-o", path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
                 request.addOption("-f","bestaudio[ext=m4a]");
 
                 try {
@@ -43,7 +45,18 @@ public class Download_Manager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                //Adding song to the Playlist
+                File file = new File(path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
+                if(file.exists()){
+                    Log.d("Download","Song Downloaded");
+                    MainActivity.getPlaylists().get(0).getSongs().add(song);
+                }
+                else{
+                    Log.d("Download","File Does not downloaded Successfully");
+                }
             }
+
         };
 
         Thread thread = new Thread(download);

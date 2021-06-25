@@ -46,11 +46,11 @@ public class SongDisplayCardController {
     public void Download(){
         Download_Manager downloader = MainActivity.getDownloader();
         Vector<Song> searched = SearchDisplayController.getSearch().getSearched_songs();
-        String video_id = "";
+        Song song_dwn = new Song();
         for(Song song: searched){
-            if(song.getSongName().equals(song_text.getText().toString())) video_id = song.getVideoID();
+            if(song.getSongName().equals(song_text.getText().toString())) song_dwn = song;
         }
-        downloader.download(video_id);
+        downloader.download(song_dwn);
     }
     public static void pauseCurPlaying() {
         if (curPlaying!=null) {

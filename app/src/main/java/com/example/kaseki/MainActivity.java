@@ -16,17 +16,20 @@ import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
     private BottomBarController bottomBarController;
     private SecondarySongDisplayController secondarySongDisplayController;
     private MainDisplayFlipperController mainDisplayFlipperController;
     private static Download_Manager Downloader;
+    private static Vector<Playlist> playlists;
+    private String SERIALIZED_FOLDER;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SERIALIZED_FOLDER = getApplicationInfo().dataDir.toString() + "/playlist";
         getSupportActionBar().hide();
-
         Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);

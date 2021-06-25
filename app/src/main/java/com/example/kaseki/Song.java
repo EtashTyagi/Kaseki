@@ -8,6 +8,15 @@ public class Song implements Serializable {
     private String songName;
     private String thumbnailPath;
     private String artist;
+    private boolean downloaded;
+
+    public boolean isDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(boolean downloaded) {
+        this.downloaded = downloaded;
+    }
 
     public String getVideoID() {
         return videoID;
