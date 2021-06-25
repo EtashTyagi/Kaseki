@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
+        initialize(getApplicationInfo().dataDir.toString());
         Downloader = new Download_Manager();
         Downloader.initialize(getApplication(),getApplicationInfo().dataDir);
 
@@ -77,5 +78,12 @@ public class MainActivity extends AppCompatActivity {
     }
     public static Vector<Playlist> getPlaylists() {
         return playlists;
+    }
+    public void initialize(String path){
+        File thumbnail = new File(path+"/thumbnails");
+        if(!thumbnail.exists()) {
+            thumbnail.mkdir();
+            Log.d("Folder","Thumbnail Folder Created");
+        }
     }
 }

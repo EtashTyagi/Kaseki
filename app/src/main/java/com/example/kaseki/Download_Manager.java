@@ -1,20 +1,22 @@
 package com.example.kaseki;
 
 import android.app.Application;
-import android.media.MediaPlayer;
-import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
-import com.google.android.material.shape.MarkerEdgeTreatment;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
 
-import java.io.File;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Download_Manager {
     private File path;
+    private Application application;
     public void initialize(Application application,String uri){
         //Initializing Youtube -dl
+        this.application = application;
         try {
             YoutubeDL.getInstance().init(application);
         } catch (YoutubeDLException e) {
@@ -49,6 +51,12 @@ public class Download_Manager {
                 //Adding song to the Playlist
                 File file = new File(path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
                 if(file.exists()){
+                    try {
+                        download_thumbnail(song.getThumbnailPath(),song.getVideoID());
+                        song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails"+song.getVideoID()+".jpg");
+                    } catch (IOException e) {
+                        System.out.println(e);
+                    }
                     Log.d("Download","Song Downloaded");
                     MainActivity.getPlaylists().get(0).getSongs().add(song);
                 }
@@ -65,7 +73,29 @@ public class Download_Manager {
         return true;
     }
 
+    public void download_thumbnail(String address, String video_id) throws IOException {
+        URL url = new URL (address);
+        InputStream input = url.openStream();
+        try {
+            OutputStream output = new FileOutputStream(application.getApplicationInfo().dataDir + "/thumbnails/"+video_id+".jpg");
+            try {
+                byte[] buffer = new byte[20000];
+                int bytesRead = 0;
+                while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0) {
+                    output.write(buffer, 0, bytesRead);
+                }
+            } finally {
+                output.close();
+            }
+        } finally {
+            input.close();
+        }
+        return;
+    }
+
     public String getPath(){
         return path.toString();
     }
+
 }
+
