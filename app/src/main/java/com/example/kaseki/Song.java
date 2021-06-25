@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Song implements Serializable {
     private String videoID;
-    private String path;
     private String songName;
     private String thumbnailPath;
     private String artist;
@@ -24,14 +23,6 @@ public class Song implements Serializable {
 
     public void setVideoID(String videoID) {
         this.videoID = videoID;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public String getSongName() {
