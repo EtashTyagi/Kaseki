@@ -1,14 +1,12 @@
 package com.example.kaseki;
 
 import android.app.Application;
-import android.os.Environment;
 import android.util.Log;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Download_Manager {
@@ -29,6 +27,7 @@ public class Download_Manager {
     }
 
     public boolean download(Song song){
+
         YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+song.getVideoID());
 
         //Setting the options
@@ -60,6 +59,7 @@ public class Download_Manager {
                     }
                     Log.d("Download","Song Downloaded");
                     MainActivity.getPlaylists().get(0).getSongs().add(song);
+                    Utils.serializePlaylist(MainActivity.getPlaylists(),MainActivity.getSerializedPath());
                 }
                 else{
                     Log.d("Download","File Does not downloaded Successfully");

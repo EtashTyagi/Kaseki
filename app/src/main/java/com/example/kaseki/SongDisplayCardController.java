@@ -39,9 +39,12 @@ public class SongDisplayCardController {
         });
     }
     public void Download(){
-        Download_Manager downloader = MainActivity.getDownloader();
-        downloader.download(song);
-        song.setDownloaded(true);
+        if(!check_for_download(song)){
+            Download_Manager downloader = MainActivity.getDownloader();
+            downloader.download(song);
+            song.setDownloaded(true);
+        }
+        else Toast.makeText(mainActivity, "Song is Already Dwonloaded", Toast.LENGTH_SHORT).show();
     }
     public static void pauseCurPlaying() {
         if (curPlaying!=null) {
@@ -60,11 +63,22 @@ public class SongDisplayCardController {
             curPlaying.playPauseImageButton.setImageResource(PLAY_BUTTON);
             curPlaying.paused=true;
         }
-        Download();
+        if(!check_for_download(song)) Download();
         curPlaying=this;
         playPauseImageButton.setImageResource(PAUSE_BUTTON);
         mainActivity.getSecondarySongDisplayController().play();
     }
+
+    private boolean check_for_download(Song song){
+        Vector<Playlist> playlists = MainActivity.getPlaylists();
+        for(int i=0;i< playlists.size();i++){
+            for(int j=0;j<playlists.get(i).getSongs().size();j++){
+                if(playlists.get(i).getSongs().get(j).getVideoID().equals(song.getVideoID())) return true;
+            }
+        }
+        return false;
+    }
+
     private void pause() {
         playPauseImageButton.setImageResource(PLAY_BUTTON);
         mainActivity.getSecondarySongDisplayController().pause();

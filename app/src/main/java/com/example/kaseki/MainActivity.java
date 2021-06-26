@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.yausername.youtubedl_android.YoutubeDL;
+import com.yausername.youtubedl_android.YoutubeDLException;
 
 import java.io.File;
 import java.util.Vector;
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private PlaylistDisplayController playlistDisplayController;
     private static Download_Manager Downloader;
     private static Vector<Playlist> playlists;
-    private String SERIALIZED_FILE;
+    private static String SERIALIZED_FILE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,4 +93,9 @@ public class MainActivity extends AppCompatActivity {
     public PlaylistDisplayController getPlaylistDisplayController() {
         return playlistDisplayController;
     }
+
+    public static String getSerializedPath(){
+        return SERIALIZED_FILE;
+    }
+
 }
