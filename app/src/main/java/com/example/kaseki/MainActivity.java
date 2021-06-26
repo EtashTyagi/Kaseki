@@ -1,5 +1,6 @@
 package com.example.kaseki;
 
+import android.app.Application;
 import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private static Download_Manager Downloader;
     private static Vector<Playlist> playlists;
     private static String SERIALIZED_FILE;
+    private Player player = new Player();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
         Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
-        initialize(getApplicationInfo().dataDir.toString());
+        playlists = Utils.deserializePlaylist(SERIALIZED_FILE);
         Downloader = new Download_Manager();
-        Downloader.initialize(getApplication(),getApplicationInfo().dataDir);
-        playlists=Utils.deserializePlaylist(SERIALIZED_FILE);
+        Downloader.initialize(getApplication(),getApplicationInfo().dataDir);;
+        initialize(getApplicationInfo().dataDir.toString());
+        GarbageCollector.collectGarbage(getApplicationInfo().dataDir.toString());
         //Bottom Bar
-        initiateBottomBar();
+         initiateBottomBar();
         //Song Display Bar
         initiateSecondarySongDisplay();
         //Main Display
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public static Vector<Playlist> getPlaylists() {
         return playlists;
     }
+
     public void initialize(String path){
         File thumbnail = new File(path+"/thumbnails");
         if(!thumbnail.exists()) {
@@ -96,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static String getSerializedPath(){
         return SERIALIZED_FILE;
+    }
+
+    public Application getActivity(){
+        return this.getApplication();
     }
 
 }

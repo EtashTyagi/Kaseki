@@ -1,6 +1,7 @@
 package com.example.kaseki;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
@@ -26,7 +27,7 @@ public class Download_Manager {
 
     }
 
-    public boolean download(Song song){
+    public boolean download(Song song, Boolean to_download){
 
         YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+song.getVideoID());
 
@@ -46,23 +47,26 @@ public class Download_Manager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                //Adding song to the Playlist
-                File file = new File(path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
-                if(file.exists()){
-                    try {
-                        download_thumbnail(song.getThumbnailPath(),song.getVideoID());
-                        song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails/"+song.getVideoID()+".jpg");
-                        System.out.println(song.getThumbnailPath());
-                    } catch (IOException e) {
-                        System.out.println(e);
+                if(to_download) {
+                    //Adding song to the Playlist
+                    File file = new File(path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3");
+                    if (file.exists()) {
+                        try {
+                            download_thumbnail(song.getThumbnailPath(), song.getVideoID());
+                            song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails/" + song.getVideoID() + ".jpg");
+                            System.out.println(song.getThumbnailPath());
+                        } catch (IOException e) {
+                            System.out.println(e);
+                        }
+                        Log.d("Download", "Song Downloaded");
+                        MainActivity.getPlaylists().get(0).getSongs().add(song);
+                        Utils.serializePlaylist(MainActivity.getPlaylists(), MainActivity.getSerializedPath());
+                    } else {
+                        Log.d("Download", "File Does not downloaded Successfully");
                     }
-                    Log.d("Download","Song Downloaded");
-                    MainActivity.getPlaylists().get(0).getSongs().add(song);
-                    Utils.serializePlaylist(MainActivity.getPlaylists(),MainActivity.getSerializedPath());
                 }
                 else{
-                    Log.d("Download","File Does not downloaded Successfully");
+                    Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
                 }
             }
 
@@ -95,7 +99,7 @@ public class Download_Manager {
     }
 
     public String getPath(){
-        return path.toString();
+        return path.getAbsolutePath().toString();
     }
 
 }

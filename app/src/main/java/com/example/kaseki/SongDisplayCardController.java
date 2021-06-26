@@ -1,5 +1,6 @@
 package com.example.kaseki;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -27,7 +28,7 @@ public class SongDisplayCardController {
         playPauseImageButton=parent.findViewById(R.id.playPauseImageButtonSD);
         download_ImageButton = parent.findViewById(R.id.donwload_button);
         songNameTextView.setSelected(true);
-        download_ImageButton.setOnClickListener(v -> Download());
+        download_ImageButton.setOnClickListener(v -> Download(true));
         playPauseImageButton.setOnClickListener((view)->{
             if (paused) {
                 play();
@@ -38,13 +39,13 @@ public class SongDisplayCardController {
             paused=!paused;
         });
     }
-    public void Download(){
+    public void Download(Boolean to_download){
         if(!check_for_download(song)){
             Download_Manager downloader = MainActivity.getDownloader();
-            downloader.download(song);
+            downloader.download(song,to_download);
             song.setDownloaded(true);
         }
-        else Toast.makeText(mainActivity, "Song is Already Dwonloaded", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(mainActivity, "Song is Already Downloaded", Toast.LENGTH_SHORT).show();
     }
     public static void pauseCurPlaying() {
         if (curPlaying!=null) {
@@ -63,7 +64,8 @@ public class SongDisplayCardController {
             curPlaying.playPauseImageButton.setImageResource(PLAY_BUTTON);
             curPlaying.paused=true;
         }
-        if(!check_for_download(song)) Download();
+        if(!check_for_download(song)) Download(false);
+        else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+song.getVideoID()+".mp3"),mainActivity.getApplication());
         curPlaying=this;
         playPauseImageButton.setImageResource(PAUSE_BUTTON);
         mainActivity.getSecondarySongDisplayController().play();
@@ -82,5 +84,6 @@ public class SongDisplayCardController {
     private void pause() {
         playPauseImageButton.setImageResource(PLAY_BUTTON);
         mainActivity.getSecondarySongDisplayController().pause();
+        Player.pause();
     }
 }
