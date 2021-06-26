@@ -2,8 +2,8 @@ package com.example.kaseki;
 
 import android.widget.ViewFlipper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class MainDisplayFlipperController {
     private ViewFlipper parent;
@@ -19,6 +19,7 @@ public class MainDisplayFlipperController {
         displayControllersToID.put(HomeDisplayController.class, 0);
         displayControllersToID.put(SearchDisplayController.class, 1);
         displayControllersToID.put(LibraryDisplayController.class, 2);
+        displayControllersToID.put(PlaylistDisplayController.class, 3);
     }
     public void flipToDisplay(Class<? extends DisplayController> type) {
         int nextID = displayControllersToID.get(type);
@@ -31,26 +32,50 @@ public class MainDisplayFlipperController {
         } else if (currentSelectedID==0) {
             if (nextID==2) {
                 flipPrevious();
+                parent.showPrevious();
             } else if (nextID==1) {
                 flipNext();
             }
-        } else {
+        } else if (currentSelectedID==2){
             if (nextID==1) {
                 flipPrevious();
             } else if (nextID==0) {
                 flipNext();
+                parent.showNext();
+            } else {
+                flipNext();
+            }
+        } else {
+            if (nextID==0) {
+                flipNext();
+            } else if (nextID==1) {
+                flipNext();
+                parent.showNext();
+            } else if (nextID==2) {
+                flipPrevious();
             }
         }
         currentSelectedID=nextID;
     }
-    public void initiateHomeDisplay() {
-        idToObject.put(0, new HomeDisplayController(mainActivity));
+    public HomeDisplayController initiateHomeDisplay() {
+        HomeDisplayController n=new HomeDisplayController(mainActivity);
+        idToObject.put(0, n);
+        return n;
     }
-    public void initiateSearchDisplay(SongDisplayAdapter songDisplayAdapter) {
-        idToObject.put(1, new SearchDisplayController(mainActivity, songDisplayAdapter));
+    public SearchDisplayController initiateSearchDisplay(SongDisplayAdapter songDisplayAdapter) {
+        SearchDisplayController n = new SearchDisplayController(mainActivity, songDisplayAdapter);
+        idToObject.put(1, n);
+        return n;
     }
-    public void initiateLibraryDisplay() {
-        idToObject.put(2, new LibraryDisplayController(mainActivity));
+    public LibraryDisplayController initiateLibraryDisplay(PlaylistDisplayAdapter songDisplayAdapter, Vector<Playlist> playlists) {
+        LibraryDisplayController n = new LibraryDisplayController(mainActivity, songDisplayAdapter, playlists);
+        idToObject.put(2, n);
+        return n;
+    }
+    public PlaylistDisplayController initiatePlaylistDisplay(Playlist defaultP) {
+        PlaylistDisplayController n =  new PlaylistDisplayController(mainActivity, defaultP);
+        idToObject.put(3, n);
+        return n;
     }
     private void flipNext() {
         parent.setInAnimation(mainActivity.getBaseContext(),

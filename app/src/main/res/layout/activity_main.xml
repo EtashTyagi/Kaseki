@@ -22,6 +22,8 @@
                  layout="@layout/search_display" android:id="@+id/searchDisplayInclude"/>
         <include android:layout_width="match_parent" android:layout_height="match_parent"
                  layout="@layout/library_display" android:id="@+id/libraryDisplayInclude"/>
+        <include android:layout_width="match_parent" android:layout_height="match_parent"
+                 layout="@layout/playlist_display" android:id="@+id/playlistDisplayInclude"/>
     </ViewFlipper>
     <include android:layout_width="0dp" android:layout_height="wrap_content"
              layout="@layout/secondary_song_display"

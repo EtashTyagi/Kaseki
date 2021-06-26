@@ -27,12 +27,7 @@ public class SongDisplayCardController {
         playPauseImageButton=parent.findViewById(R.id.playPauseImageButtonSD);
         download_ImageButton = parent.findViewById(R.id.donwload_button);
         songNameTextView.setSelected(true);
-        download_ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Download();
-            }
-        });
+        download_ImageButton.setOnClickListener(v -> Download());
         playPauseImageButton.setOnClickListener((view)->{
             if (paused) {
                 play();
@@ -45,12 +40,8 @@ public class SongDisplayCardController {
     }
     public void Download(){
         Download_Manager downloader = MainActivity.getDownloader();
-        Vector<Song> searched = SearchDisplayController.getSearch().getSearched_songs();
-        Song song_dwn = new Song();
-        for(Song song: searched){
-            if(song.getSongName().equals(song_text.getText().toString())) song_dwn = song;
-        }
-        downloader.download(song_dwn);
+        downloader.download(song);
+        song.setDownloaded(true);
     }
     public static void pauseCurPlaying() {
         if (curPlaying!=null) {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,8 +34,13 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> 
     public void onBindViewHolder(SongDisplayHolder holder, final int position) {
         holder.getSongNameTextView().setText(myList.get(position).getSongName());
         holder.getArtistNameTextView().setText(myList.get(position).getArtist());
-        Picasso.get().load(myList.get(position).getThumbnailPath()).into(holder.getSongImage());
-        Log.d("IMAGE_LOAD", myList.get(position).getThumbnailPath());
+        if (myList.get(position).isDownloaded()) {
+            Picasso.get().load("file:"+myList.get(position).getThumbnailPath()).into(holder.getSongImage());
+            Log.d("IMAGE_LOAD", "file:"+myList.get(position).getThumbnailPath());
+        } else {
+            Picasso.get().load(myList.get(position).getThumbnailPath()).into(holder.getSongImage());
+        }
+
         //Add Controller
         if (!songToControllers.containsKey(myList.get(position))) {
             songToControllers.put(myList.get(position),

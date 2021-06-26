@@ -1,10 +1,7 @@
 package com.example.kaseki;
 
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.*;
-
-import java.util.ArrayList;
 
 public class SearchDisplayController extends DisplayController {
     private SongDisplayAdapter scrollerAdapter;
@@ -28,19 +25,6 @@ public class SearchDisplayController extends DisplayController {
                 search = new Search();
                 scrollerAdapter.clear();
                 search.call(mainActivity, query, cur);
-                //TODO: REMOVE
-                Song dummy = new Song();
-                dummy.setArtist("Tommy Boy");
-                dummy.setVideoID("fPO76Jlnz6c");
-                dummy.setSongName("Coolio - Gangsta's Paradise (feat. L.V.) [Official Music Video]");
-                dummy.setThumbnailPath("https://i.ytimg.com/vi/fPO76Jlnz6c/maxresdefault.jpg");
-                populateSong(dummy);
-                Song dummy2 = new Song();
-                dummy2.setArtist("DMX");
-                dummy2.setVideoID("fGx6K90TmCI");
-                dummy2.setSongName("DMX - X Gon' Give It To Ya (Official Music Video)");
-                dummy2.setThumbnailPath("https://i.ytimg.com/vi/fGx6K90TmCI/maxresdefault.jpg");
-                populateSong(dummy2);
                 return true;
             }
         });

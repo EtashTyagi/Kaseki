@@ -19,8 +19,8 @@ class SongDisplayHolder extends RecyclerView.ViewHolder {
         artistNameTextView= parent.findViewById(R.id.artistTextViewSD);
         songImage = parent.findViewById(R.id.songImageSD);
         LinearLayout mainLayout = parent.findViewById(R.id.songDisplayMainLayout);
-        mainLayout.setOnClickListener(v ->
-                Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show());
+//        mainLayout.setOnClickListener(v ->
+//                Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show());
     }
     public TextView getSongNameTextView() {
         return songNameTextView;

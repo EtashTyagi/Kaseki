@@ -7,6 +7,7 @@ public class Song implements Serializable {
     private String songName;
     private String thumbnailPath;
     private String artist;
+    private boolean isDownloaded;
 
     public String getVideoID() {
         return videoID;
@@ -38,5 +39,13 @@ public class Song implements Serializable {
 
     public void setArtist(String artist) {
         this.artist = artist;
+    }
+
+    public boolean isDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setDownloaded(boolean downloaded) {
+        isDownloaded = downloaded;
     }
 }
