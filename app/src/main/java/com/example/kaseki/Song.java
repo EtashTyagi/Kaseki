@@ -1,6 +1,7 @@
 package com.example.kaseki;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Song implements Serializable {
     private String videoID;
@@ -47,5 +48,18 @@ public class Song implements Serializable {
 
     public void setDownloaded(boolean downloaded) {
         isDownloaded = downloaded;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return Objects.equals(videoID, song.videoID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(videoID);
     }
 }

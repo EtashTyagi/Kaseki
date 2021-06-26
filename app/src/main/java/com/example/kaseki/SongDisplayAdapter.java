@@ -46,6 +46,9 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> 
             songToControllers.put(myList.get(position),
                     new SongDisplayCardController(mainActivity, holder.getParent(), myList.get(position)));
         }
+        if (myList.get(position).isDownloaded()) {
+            holder.getDownloadButton().setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        }
         mLastPosition =position;
     }
     @Override

@@ -1,8 +1,10 @@
 package com.example.kaseki;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -15,11 +17,13 @@ public class SecondarySongDisplayController {
     private ImageView songImage;
     private static final int PLAY_IMAGE=R.drawable.play;
     private static final int PAUSE_IMAGE=R.drawable.pause;
+    private int WRAP_HEIGHT;
     private boolean paused=true;
     SecondarySongDisplayController(MainActivity mainActivity) {
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
         this.mainActivity=mainActivity;
-        parent.setVisibility(View.INVISIBLE);
+        WRAP_HEIGHT=parent.getLayoutParams().height;
+        parent.getLayoutParams().height=1;
         playPauseButton=parent.findViewById(R.id.playPauseButton);
         songNameTextView=parent.findViewById(R.id.songNameTextViewSD);
         artistTextView=parent.findViewById(R.id.artistTextViewSD);
@@ -41,10 +45,12 @@ public class SecondarySongDisplayController {
     }
     public void play() {
         playPauseButton.setImageResource(PAUSE_IMAGE);
+        parent.getLayoutParams().height=WRAP_HEIGHT;
         paused=false;
     }
     public void pause() {
         playPauseButton.setImageResource(PLAY_IMAGE);
+        parent.getLayoutParams().height=WRAP_HEIGHT;
         paused=true;
     }
     public void setToSong(Song song) {
