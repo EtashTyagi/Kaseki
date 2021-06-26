@@ -53,7 +53,8 @@ public class Download_Manager {
                 if(file.exists()){
                     try {
                         download_thumbnail(song.getThumbnailPath(),song.getVideoID());
-                        song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails"+song.getVideoID()+".jpg");
+                        song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails/"+song.getVideoID()+".jpg");
+                        System.out.println(song.getThumbnailPath());
                     } catch (IOException e) {
                         System.out.println(e);
                     }
