@@ -24,6 +24,7 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> 
         this.myList = new ArrayList<>();
         songToControllers=new HashMap<>();
         this.mainActivity=mainActivity;
+        this.contains = new HashSet<>();
     }
     @NonNull
     public SongDisplayHolder onCreateViewHolder(ViewGroup parent, int viewType) {
