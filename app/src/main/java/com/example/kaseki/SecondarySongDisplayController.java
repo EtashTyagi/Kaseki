@@ -47,11 +47,13 @@ public class SecondarySongDisplayController {
         playPauseButton.setImageResource(PAUSE_IMAGE);
         parent.getLayoutParams().height=WRAP_HEIGHT;
         curPlaying=song;
+        Player.resume();
         paused=false;
     }
     public void pause() {
         playPauseButton.setImageResource(PLAY_IMAGE);
         parent.getLayoutParams().height=WRAP_HEIGHT;
+        Player.pause();
         paused=true;
     }
     public void setToSong(Song song) {

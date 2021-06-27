@@ -13,8 +13,9 @@ public class Song implements Serializable {
     private String thumbnailPath;
     private String artist;
     private transient MainActivity mainActivity;
-    private boolean isDownloaded;
-    private boolean isPlaying;
+    private transient boolean isDownloaded;
+    private transient boolean isPlaying;
+    private transient double progress;
 
     Song(MainActivity mainActivity) {
         this.mainActivity=mainActivity;
@@ -59,7 +60,6 @@ public class Song implements Serializable {
     public void setDownloaded(boolean downloaded) {
         isDownloaded = downloaded;
     }
-
     public boolean isPlaying() {
         return isPlaying;
     }
