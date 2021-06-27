@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/seekBar" android:layout_marginTop="10sp"
                 android:layout_marginLeft="15sp" android:layout_marginRight="15sp"
+                android:secondaryProgressTint="@color/white"
                 android:thumbTint="@color/white"/>
     </LinearLayout>
     <LinearLayout

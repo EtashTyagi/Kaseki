@@ -1,5 +1,7 @@
 package com.example.kaseki;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,7 +35,7 @@ public class PrimarySongDisplayController extends DisplayController{
         playlistTitle = parent.findViewById(R.id.playlistTitle);
         songName = parent.findViewById(R.id.songNameP);
         seekBar = parent.findViewById(R.id.seekBar);
-
+        seekBar.getProgressDrawable().setColorFilter(parent.getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -91,8 +93,6 @@ public class PrimarySongDisplayController extends DisplayController{
         this.secondarySongDisplayController = secondarySongDisplayController;
         playPauseButton.setImageResource(PAUSE_IMAGE);
         seekBar.setMax(Player.getPlayer().getDuration());
-        MainActivity.updateSeekBar();
-        MainActivity.run();
         if (song.isDownloaded()) {
             Picasso.get().load(new File(song.getThumbnailPath())).into(songImage);
         } else {

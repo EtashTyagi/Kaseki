@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private static HashSet<Song> downloadedSongs;
     private static String SERIALIZED_FILE;
     private static Player player = new Player();
-    private static Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +51,19 @@ public class MainActivity extends AppCompatActivity {
         initiateSecondarySongDisplay();
         //Main Display
         initiateMainDisplay();
-        Runnable update = new Runnable() {
+        Handler mHandler = new Handler();
+        //Make sure you update Seekbar on UI thread
+        Runnable mRunnable = new Runnable() {
             @Override
             public void run() {
-                while (true)
-                    updateSeekBar();
+                if(Player.getPlayer() != null){
+                    int mCurrentPosition = Player.getPlayer().getCurrentPosition();
+                    PrimarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
+                }
+                mHandler.postDelayed(this,200);
             }
         };
-        thread = new Thread(update);
+        mRunnable.run();
     }
 
     public static MainActivity getCurrentInstance() {
@@ -143,15 +147,8 @@ public class MainActivity extends AppCompatActivity {
         return this.getApplication();
     }
 
-    public static void updateSeekBar(){
-        if(Player.getPlayer() != null){
-            int mCurrentPosition = Player.getPlayer().getCurrentPosition();
-            PrimarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
+    public void updateSeekBar(){
 
-        }
-    }
-    public static void run(){
-        thread.start();
     }
 
 }
