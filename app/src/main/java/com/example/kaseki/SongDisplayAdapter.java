@@ -41,8 +41,6 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> 
         } else {
             Picasso.get().load(myList.get(position).getThumbnailPath()).into(holder.getSongImage());
         }
-
-        //Add Controller
         if (!songToControllers.containsKey(myList.get(position))) {
             songToControllers.put(myList.get(position),
                     new SongDisplayCardController(mainActivity, holder.getParent(), myList.get(position)));

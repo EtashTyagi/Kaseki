@@ -17,11 +17,13 @@ public class SecondarySongDisplayController {
     private ImageView songImage;
     private static final int PLAY_IMAGE=R.drawable.play;
     private static final int PAUSE_IMAGE=R.drawable.pause;
+    private Song curPlaying;
     private int WRAP_HEIGHT;
     private boolean paused=true;
     SecondarySongDisplayController(MainActivity mainActivity) {
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
         this.mainActivity=mainActivity;
+        curPlaying=new Song(mainActivity);
         WRAP_HEIGHT=parent.getLayoutParams().height;
         parent.getLayoutParams().height=1;
         playPauseButton=parent.findViewById(R.id.playPauseButton);
@@ -35,17 +37,16 @@ public class SecondarySongDisplayController {
         if (view==playPauseButton) {
             if (paused) {
                 playPauseButton.setImageResource(PAUSE_IMAGE);
-                SongDisplayCardController.playCurPlaying();
             } else {
                 playPauseButton.setImageResource(PLAY_IMAGE);
-                SongDisplayCardController.pauseCurPlaying();
             }
             paused=!paused;
         }
     }
-    public void play() {
+    public void play(Song song) {
         playPauseButton.setImageResource(PAUSE_IMAGE);
         parent.getLayoutParams().height=WRAP_HEIGHT;
+        curPlaying=song;
         paused=false;
     }
     public void pause() {

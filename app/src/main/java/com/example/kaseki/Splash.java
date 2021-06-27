@@ -17,7 +17,7 @@ public class Splash extends Activity {
         super.onCreate(icicle);
         setContentView(R.layout.splash);
         Utils.changeStatusBarColor(this, R.color.transparent_black);
-
+        Utils.changeNavBarColor(this, R.color.black);
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
         new Handler(Looper.getMainLooper()).postDelayed(() -> {

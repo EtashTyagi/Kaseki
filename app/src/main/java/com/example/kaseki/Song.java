@@ -1,14 +1,24 @@
 package com.example.kaseki;
 
+import android.net.Uri;
+import android.widget.Toast;
+
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Vector;
 
 public class Song implements Serializable {
     private String videoID;
     private String songName;
     private String thumbnailPath;
     private String artist;
+    private MainActivity mainActivity;
     private boolean isDownloaded;
+    private boolean isPlaying;
+
+    Song(MainActivity mainActivity) {
+        this.mainActivity=mainActivity;
+    }
 
     public String getVideoID() {
         return videoID;
@@ -48,6 +58,35 @@ public class Song implements Serializable {
 
     public void setDownloaded(boolean downloaded) {
         isDownloaded = downloaded;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        if (playing==true) {
+            if(!checkIfDownloaded()) download(false);
+            else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),mainActivity.getApplication());
+        }
+        isPlaying = playing;
+    }
+    public void download(Boolean to_download){
+        if(!checkIfDownloaded()){
+            Download_Manager downloader = MainActivity.getDownloader();
+            downloader.download(this,to_download);
+            this.setDownloaded(true);
+        }
+        else Toast.makeText(mainActivity, "Song is Already Downloaded", Toast.LENGTH_SHORT).show();
+    }
+    private boolean checkIfDownloaded(){
+        Vector<Playlist> playlists = MainActivity.getPlaylists();
+        for(int i=0;i< playlists.size();i++){
+            for(int j=0;j<playlists.get(i).getSongs().size();j++){
+                if(playlists.get(i).getSongs().get(j).getVideoID().equals(getVideoID())) return true;
+            }
+        }
+        return false;
     }
 
     @Override

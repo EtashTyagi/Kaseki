@@ -19,6 +19,9 @@ public class GarbageCollector {
         File directory = new File(path + "/thumbnails");
         File[] files = directory.listFiles();
         ArrayList<File> delete = new ArrayList<>();
+        if (files==null) {
+            return;
+        }
         for (int i = 0; i < files.length; i++)
         {
             if(!thumbnails.contains(files[i].getName()))
