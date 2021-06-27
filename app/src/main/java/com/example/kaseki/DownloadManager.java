@@ -36,6 +36,7 @@ public class DownloadManager {
         Runnable download = new Runnable() {
             @Override
             public void run() {
+                song.setDownloaded(toDownload);
                 request.addOption("-o", path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
                 request.addOption("-f","bestaudio[ext=m4a]");
 
@@ -71,6 +72,9 @@ public class DownloadManager {
                 }
                 else{
                     Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
+                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
+                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().setToSong(song);
+                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().play(song);
                 }
             }
 

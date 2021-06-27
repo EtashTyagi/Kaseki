@@ -39,7 +39,7 @@
                         android:text=" Song name goes here make scrolling"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/songNameTextViewSD"
-                        android:textColor="@android:color/white" android:fontFamily="sans-serif"
+                        android:textColor="@android:color/white" android:fontFamily="@font/noto_sans"
                         android:paddingLeft="5dp" android:fadeScrollbars="true" android:textSize="24sp"
                         android:singleLine="true" android:ellipsize="marquee"
                         android:marqueeRepeatLimit="marquee_forever"
