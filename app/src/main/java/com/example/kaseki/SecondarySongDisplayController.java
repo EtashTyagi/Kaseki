@@ -38,7 +38,7 @@ public class SecondarySongDisplayController {
         songImage.setOnClickListener(this::onClick);
     }
 
-    private void onClick(View view) {
+    public void onClick(View view) {
         if (view==playPauseButton) {
             if (paused) {
                 Player.resume();
@@ -47,9 +47,10 @@ public class SecondarySongDisplayController {
                 playPauseButton.setImageResource(PLAY_IMAGE);
                 Player.pause();
             }
+            PrimarySongDisplayController.changePlayPauseButton(paused);
             paused=!paused;
         } else if (view==songImage || view==artistTextView || view==songNameTextView) {
-            mainActivity.getPrimarySongDisplayController().setToSong(curPlaying);
+            mainActivity.getPrimarySongDisplayController().setToSong(curPlaying,this);
             mainActivity.changeMainDisplayController(PrimarySongDisplayController.class);
         }
     }
@@ -78,5 +79,29 @@ public class SecondarySongDisplayController {
         } else {
             Picasso.get().load(song.getThumbnailPath()).into(songImage);
         }
+    }
+
+    public Song getCurPlaying(){
+        return curPlaying;
+    }
+
+    public void setCurPlaying(Song song){
+        curPlaying = song;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public ImageButton getPlayPauseButton() {
+        return playPauseButton;
+    }
+
+    public void setPlayPauseButton(ImageButton playPauseButton) {
+        this.playPauseButton = playPauseButton;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
