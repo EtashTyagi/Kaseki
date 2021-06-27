@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,10 +19,10 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> 
     private HashMap<Song, SongDisplayCardController> songToControllers;
     private MainActivity mainActivity;
     int mLastPosition = 0;
-    public SongDisplayAdapter(MainActivity mainActivity) {
+    public SongDisplayAdapter() {
+        this.mainActivity=MainActivity.getCurrentInstance();
         this.myList = new ArrayList<>();
         songToControllers=new HashMap<>();
-        this.mainActivity=mainActivity;
         this.contains = new HashSet<>();
     }
     @NonNull
@@ -41,11 +40,11 @@ public class SongDisplayAdapter extends RecyclerView.Adapter<SongDisplayHolder> 
         } else {
             Picasso.get().load(myList.get(position).getThumbnailPath()).into(holder.getSongImage());
         }
-        if (!songToControllers.containsKey(myList.get(position).getVideoID())) {
+        if (!songToControllers.containsKey(myList.get(position))) {
             songToControllers.put(myList.get(position),
-                    new SongDisplayCardController(mainActivity, holder.getParent(), myList.get(position)));
+                    new SongDisplayCardController(holder.getParent(), myList.get(position)));
         }
-        if (myList.get(position).isDownloaded()) {
+        if (MainActivity.isDownloaded(myList.get(position))) {
             holder.getDownloadButton().setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
         mLastPosition =position;

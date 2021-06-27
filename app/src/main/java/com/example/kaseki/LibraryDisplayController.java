@@ -12,8 +12,8 @@ public class LibraryDisplayController extends DisplayController{
     PlaylistDisplayAdapter playlistDisplayAdapter;
     Vector<Playlist> playlists;
     RecyclerView songDisplay;
-    LibraryDisplayController(MainActivity mainActivity, PlaylistDisplayAdapter playlistDisplayAdapter, Vector<Playlist> playlists) {
-        super(mainActivity);
+    LibraryDisplayController(PlaylistDisplayAdapter playlistDisplayAdapter, Vector<Playlist> playlists) {
+        super();
         this.parent=this.parent.findViewById(R.id.libraryDisplayInclude);
         this.playlistDisplayAdapter = playlistDisplayAdapter;
         this.playlists=playlists;

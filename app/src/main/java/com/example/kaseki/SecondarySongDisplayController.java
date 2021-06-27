@@ -2,10 +2,8 @@ package com.example.kaseki;
 
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -16,16 +14,17 @@ public class SecondarySongDisplayController {
     private TextView songNameTextView;
     private TextView artistTextView;
     private ImageView songImage;
+
     private static final int PLAY_IMAGE=R.drawable.play;
     private static final int PAUSE_IMAGE=R.drawable.pause;
     private Song curPlaying;
     private int WRAP_HEIGHT;
     private boolean paused=true;
 
-    SecondarySongDisplayController(MainActivity mainActivity) {
+    SecondarySongDisplayController() {
+        this.mainActivity=MainActivity.getCurrentInstance();
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
-        this.mainActivity=mainActivity;
-        curPlaying=new Song(mainActivity);
+        curPlaying=new Song();
         WRAP_HEIGHT=parent.getLayoutParams().height;
         parent.getLayoutParams().height=1;
         playPauseButton=parent.findViewById(R.id.playPauseButton);
@@ -33,7 +32,10 @@ public class SecondarySongDisplayController {
         artistTextView=parent.findViewById(R.id.artistTextViewSD);
         songImage=parent.findViewById(R.id.songImageSD);
         songNameTextView.setSelected(true);
-        playPauseButton.setOnClickListener((view)->onClick(view));
+        playPauseButton.setOnClickListener(this::onClick);
+        songNameTextView.setOnClickListener(this::onClick);
+        artistTextView.setOnClickListener(this::onClick);
+        songImage.setOnClickListener(this::onClick);
     }
 
     private void onClick(View view) {
@@ -46,6 +48,9 @@ public class SecondarySongDisplayController {
                 Player.pause();
             }
             paused=!paused;
+        } else if (view==songImage || view==artistTextView || view==songNameTextView) {
+            mainActivity.getPrimarySongDisplayController().setToSong(curPlaying);
+            mainActivity.changeMainDisplayController(PrimarySongDisplayController.class);
         }
     }
 
@@ -64,6 +69,7 @@ public class SecondarySongDisplayController {
     }
 
     public void setToSong(Song song) {
+        curPlaying=song;
         songNameTextView.setText(song.getSongName());
         artistTextView.setText(song.getArtist());
         if (song.isDownloaded()) {

@@ -11,7 +11,7 @@ class PlaylistDisplayHolder extends RecyclerView.ViewHolder {
         super(parent);
         this.parent=parent;
         playlistNameButton = parent.findViewById(R.id.playlistNameButton);
-        LinearLayout mainLayout = parent.findViewById(R.id.songDisplayMainLayout);
+//        LinearLayout mainLayout = parent.findViewById(R.id.songDisplayMainLayout);
 //        mainLayout.setOnClickListener(v ->
 //                Toast.makeText(itemView.getContext(), "Position:" + getAdapterPosition(), Toast.LENGTH_SHORT).show());
     }

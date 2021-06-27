@@ -22,13 +22,11 @@ public class GarbageCollector {
         if (files==null) {
             return;
         }
-        for (int i = 0; i < files.length; i++)
-        {
-            if(!thumbnails.contains(files[i].getName()))
-                delete.add(files[i]);
+        for (File file : files) {
+            if (!thumbnails.contains(file.getName()))
+                delete.add(file);
         }
-        for(int i=0;i<delete.size();i++)
-            delete.get(i).delete();
+        for (File file : delete) file.delete();
     }
 
     private static void clearSongs(Vector<String> songs){

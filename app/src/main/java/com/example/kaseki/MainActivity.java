@@ -11,30 +11,39 @@ import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
+    private static MainActivity mainActivity;
     private BottomBarController bottomBarController;
     private SecondarySongDisplayController secondarySongDisplayController;
     private MainDisplayFlipperController mainDisplayFlipperController;
     private PlaylistDisplayController playlistDisplayController;
+    private PrimarySongDisplayController primarySongDisplayController;
     private static Download_Manager Downloader;
     private static Vector<Playlist> playlists;
+    private static HashSet<Song> downloadedSongs;
     private static String SERIALIZED_FILE;
-    private Player player = new Player();
+    private static Player player = new Player();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SERIALIZED_FILE = getApplicationInfo().dataDir.toString() + "/playlists.ser";
+        mainActivity=this;
+        SERIALIZED_FILE = getApplicationInfo().dataDir + "/playlists.ser";
         getSupportActionBar().hide();
         Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
+        downloadedSongs=new HashSet<>();
         playlists = Utils.deserializePlaylist(SERIALIZED_FILE);
+        for (Playlist p : playlists) {
+            downloadedSongs.addAll(p.getSongs());
+        }
         Downloader = new Download_Manager();
         Downloader.initialize(getApplication(),getApplicationInfo().dataDir);;
-        initialize(getApplicationInfo().dataDir.toString());
-        GarbageCollector.collectGarbage(getApplicationInfo().dataDir.toString());
+        initialize(getApplicationInfo().dataDir);
+        GarbageCollector.collectGarbage(getApplicationInfo().dataDir);
         //Bottom Bar
          initiateBottomBar();
         //Song Display Bar
@@ -42,11 +51,15 @@ public class MainActivity extends AppCompatActivity {
         //Main Display
         initiateMainDisplay();
     }
+    public static MainActivity getCurrentInstance() {
+        return mainActivity;
+    }
+
     private void initiateBottomBar() {
-        bottomBarController =new BottomBarController(this);
+        bottomBarController =new BottomBarController();
     }
     private void initiateSecondarySongDisplay() {
-        secondarySongDisplayController=new SecondarySongDisplayController(this);
+        secondarySongDisplayController=new SecondarySongDisplayController();
     }
     public BottomBarController getBottomBarController() {
         return bottomBarController;
@@ -56,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initiateMainDisplay() {
-        mainDisplayFlipperController=new MainDisplayFlipperController(this);
+        mainDisplayFlipperController=new MainDisplayFlipperController();
         View search = findViewById(R.id.searchDisplayInclude);
         View library= findViewById(R.id.libraryDisplayInclude);
         RecyclerView songScroller = search.findViewById(R.id.songScroller);
         RecyclerView playlistScroller = library.findViewById(R.id.playlistScroller);
-        SongDisplayAdapter songAdapter = new SongDisplayAdapter(this);
-        PlaylistDisplayAdapter playlistDisplayAdapter = new PlaylistDisplayAdapter(this);
+        SongDisplayAdapter songAdapter = new SongDisplayAdapter();
+        PlaylistDisplayAdapter playlistDisplayAdapter = new PlaylistDisplayAdapter();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         final LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
         layoutManager1.setOrientation(RecyclerView.VERTICAL);
@@ -75,7 +88,13 @@ public class MainActivity extends AppCompatActivity {
         mainDisplayFlipperController.initiateSearchDisplay(songAdapter);
         mainDisplayFlipperController.initiateLibraryDisplay(playlistDisplayAdapter, playlists);
         playlistDisplayController=mainDisplayFlipperController.initiatePlaylistDisplay(playlists.get(0));
+        primarySongDisplayController=mainDisplayFlipperController.initiatePrimarySongDisplayController();
     }
+
+    public PrimarySongDisplayController getPrimarySongDisplayController() {
+        return primarySongDisplayController;
+    }
+
     public void changeMainDisplayController(Class<? extends DisplayController> type) {
         mainDisplayFlipperController.flipToDisplay(type);
     }
@@ -84,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public static Vector<Playlist> getPlaylists() {
         return playlists;
+    }
+    public static void addDownloaded(Song song) {
+        downloadedSongs.add(song);
     }
 
     public void initialize(String path){
@@ -100,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static String getSerializedPath(){
         return SERIALIZED_FILE;
+    }
+
+    public static boolean isDownloaded(Song song) {
+        return downloadedSongs.contains(song);
     }
 
     public Application getActivity(){

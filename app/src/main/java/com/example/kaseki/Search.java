@@ -49,7 +49,7 @@ public class Search {
                         for(int i=0;i<result.length();i++){
                             JSONObject video = result.getJSONObject(i).getJSONObject("id");
                             String video_id = video.get("videoId").toString();
-                            Song toAdd=(new Song(sdc.mainActivity));
+                            Song toAdd=(new Song());
                             toAdd.setVideoID(video_id);
                             if (!done.containsKey(video_id)) {
                                 add_des(context,video_id, sdc, toAdd);

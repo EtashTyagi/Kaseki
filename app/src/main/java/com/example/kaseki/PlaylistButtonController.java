@@ -6,8 +6,8 @@ public class PlaylistButtonController {
     MainActivity mainActivity;
     Playlist playlist;
     View parent;
-    PlaylistButtonController(MainActivity mainActivity, View parent, Playlist playlist) {
-        this.mainActivity=mainActivity;
+    PlaylistButtonController( View parent, Playlist playlist) {
+        this.mainActivity=MainActivity.getCurrentInstance();
         this.parent = parent;
         this.playlist=playlist;
         parent.findViewById(R.id.playlistNameButton).setOnClickListener((view)->{

@@ -16,11 +16,11 @@ public class PlaylistDisplayAdapter extends RecyclerView.Adapter<PlaylistDisplay
     private HashMap<Playlist, PlaylistButtonController> playlistToControllers;
     private MainActivity mainActivity;
     int mLastPosition = 0;
-    public PlaylistDisplayAdapter(MainActivity mainActivity) {
+    public PlaylistDisplayAdapter() {
+        this.mainActivity=MainActivity.getCurrentInstance();
         this.myList = new ArrayList<>();
         playlistToControllers =new HashMap<>();
         contains=new HashSet<>();
-        this.mainActivity=mainActivity;
     }
     @NonNull
     public PlaylistDisplayHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,7 +33,7 @@ public class PlaylistDisplayAdapter extends RecyclerView.Adapter<PlaylistDisplay
         //Add Controller
         if (!playlistToControllers.containsKey(myList.get(position))) {
             playlistToControllers.put(myList.get(position),
-                    new PlaylistButtonController(mainActivity, holder.getParent(), myList.get(position)));
+                    new PlaylistButtonController(holder.getParent(), myList.get(position)));
         }
         mLastPosition =position;
     }

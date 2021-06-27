@@ -11,13 +11,13 @@ public class PlaylistDisplayController extends DisplayController{
     private SongDisplayAdapter scrollerAdapter;
     private TextView heading;
     private Playlist playlist;
-    PlaylistDisplayController(MainActivity mainActivity, Playlist playlist) {
-        super(mainActivity);
+    PlaylistDisplayController(Playlist playlist) {
+        super();
         this.parent=this.parent.findViewById(R.id.playlistDisplayInclude);
         heading=parent.findViewById(R.id.playlist_name);
         heading.setText(playlist.getName());
         songScroller = parent.findViewById(R.id.songScroller);
-        scrollerAdapter = new SongDisplayAdapter(mainActivity);
+        scrollerAdapter = new SongDisplayAdapter();
         this.playlist=playlist;
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mainActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

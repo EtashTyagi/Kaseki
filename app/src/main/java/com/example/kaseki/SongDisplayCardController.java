@@ -1,11 +1,7 @@
 package com.example.kaseki;
 
-import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
-
-import java.util.Vector;
 
 public class SongDisplayCardController {
     private View parent;
@@ -16,8 +12,8 @@ public class SongDisplayCardController {
     private ImageButton download_ImageButton;
     private Song song;
     TextView song_text;
-    SongDisplayCardController(MainActivity mainActivity, View parent, Song song) {
-        this.mainActivity=mainActivity;
+    SongDisplayCardController(View parent, Song song) {
+        this.mainActivity=MainActivity.getCurrentInstance();
         this.parent=parent;
         this.song=song;
         song_text =parent.findViewById(R.id.songNameTextViewSD);

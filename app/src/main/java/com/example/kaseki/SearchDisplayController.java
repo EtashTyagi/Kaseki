@@ -8,8 +8,8 @@ public class SearchDisplayController extends DisplayController {
     private SearchView searchBar;
     private static Search search;
 
-    SearchDisplayController(MainActivity mainActivity, SongDisplayAdapter scrollerAdapter) {
-        super(mainActivity);
+    SearchDisplayController(SongDisplayAdapter scrollerAdapter) {
+        super();
         this.parent=this.parent.findViewById(R.id.searchDisplayInclude);
         this.searchBar=parent.findViewById(R.id.searchBar);
         this.scrollerAdapter=scrollerAdapter;

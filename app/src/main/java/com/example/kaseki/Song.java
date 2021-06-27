@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Vector;
 
 public class Song implements Serializable {
     private String videoID;
@@ -16,8 +15,8 @@ public class Song implements Serializable {
     private boolean isDownloaded;
     private transient boolean isPlaying;
 
-    Song(MainActivity mainActivity) {
-        this.mainActivity=mainActivity;
+    Song() {
+        this.mainActivity=MainActivity.getCurrentInstance();
     }
 
     public String getVideoID() {
@@ -65,27 +64,18 @@ public class Song implements Serializable {
 
     public void setPlaying(boolean playing) {
         if (playing) {
-            if(!checkIfDownloaded()) download(false);
+            if(!MainActivity.isDownloaded(this)) download(false);
             else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),MainActivity.getDownloader().getApplication());
         }
         isPlaying = playing;
     }
     public void download(Boolean toDownload){
-        if(!checkIfDownloaded()){
+        if(!MainActivity.isDownloaded(this)){
             Download_Manager downloader = MainActivity.getDownloader();
             downloader.download(this,toDownload);
             this.setDownloaded(true);
         }
         else Toast.makeText(mainActivity, "Song is Already Downloaded", Toast.LENGTH_SHORT).show();
-    }
-    private boolean checkIfDownloaded(){
-        Vector<Playlist> playlists = MainActivity.getPlaylists();
-        for(int i=0;i< playlists.size();i++){
-            for(int j=0;j<playlists.get(i).getSongs().size();j++){
-                if(playlists.get(i).getSongs().get(j).getVideoID().equals(getVideoID())) return true;
-            }
-        }
-        return false;
     }
 
     @Override

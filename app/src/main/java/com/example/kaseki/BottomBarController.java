@@ -1,9 +1,7 @@
 package com.example.kaseki;
 
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class BottomBarController {
     View parent;
@@ -12,9 +10,9 @@ public class BottomBarController {
     ImageButton searchButton;
     ImageButton libraryButton;
     ImageButton selected;
-    BottomBarController(MainActivity mainActivity) {
+    BottomBarController() {
+        this.mainActivity=MainActivity.getCurrentInstance();
         this.parent=mainActivity.findViewById(R.id.bottomBarInclude);
-        this.mainActivity=mainActivity;
         homeButton=parent.findViewById(R.id.homeButton);
         searchButton=parent.findViewById(R.id.searchButton);
         libraryButton=parent.findViewById(R.id.libraryButton);
@@ -26,17 +24,17 @@ public class BottomBarController {
         libraryButton.setOnClickListener(this::onClick);
     }
     private void onClick(View view) {
-        if (view!=selected) {
+        if (selected!=null) {
             selected.setAlpha(0.5F);
-            view.setAlpha(1);
-            selected=(ImageButton)view;
-            if (view==homeButton) {
-                mainActivity.changeMainDisplayController(HomeDisplayController.class);
-            } else if (view==searchButton) {
-                mainActivity.changeMainDisplayController(SearchDisplayController.class);
-            } else if (view==libraryButton) {
-                mainActivity.changeMainDisplayController(LibraryDisplayController.class);
-            }
+        }
+        view.setAlpha(1);
+        selected=(ImageButton)view;
+        if (view==homeButton) {
+            mainActivity.changeMainDisplayController(HomeDisplayController.class);
+        } else if (view==searchButton) {
+            mainActivity.changeMainDisplayController(SearchDisplayController.class);
+        } else if (view==libraryButton) {
+            mainActivity.changeMainDisplayController(LibraryDisplayController.class);
         }
     }
 }

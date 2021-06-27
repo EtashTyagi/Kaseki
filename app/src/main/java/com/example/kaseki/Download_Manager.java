@@ -3,6 +3,7 @@ package com.example.kaseki;
 import android.app.Application;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
@@ -60,9 +61,12 @@ public class Download_Manager {
                         }
                         Log.d("Download", "Song Downloaded");
                         MainActivity.getPlaylists().get(0).getSongs().add(song);
+                        MainActivity.addDownloaded(song);
+
                         Utils.serializePlaylist(MainActivity.getPlaylists(), MainActivity.getSerializedPath());
                     } else {
                         Log.d("Download", "File Does not downloaded Successfully");
+                        Toast.makeText(MainActivity.getCurrentInstance(), "Download failed on your device", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
