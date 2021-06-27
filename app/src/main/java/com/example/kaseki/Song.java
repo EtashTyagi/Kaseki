@@ -15,7 +15,6 @@ public class Song implements Serializable {
     private transient MainActivity mainActivity;
     private transient boolean isDownloaded;
     private transient boolean isPlaying;
-    private transient double progress;
 
     Song(MainActivity mainActivity) {
         this.mainActivity=mainActivity;
@@ -65,7 +64,7 @@ public class Song implements Serializable {
     }
 
     public void setPlaying(boolean playing) {
-        if (playing==true) {
+        if (playing) {
             if(!checkIfDownloaded()) download(false);
             else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),MainActivity.getDownloader().getApplication());
         }

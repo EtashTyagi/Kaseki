@@ -1,5 +1,6 @@
 package com.example.kaseki;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -63,9 +64,13 @@ public class SecondarySongDisplayController {
     }
 
     public void setToSong(Song song) {
-        parent.setVisibility(View.VISIBLE);
         songNameTextView.setText(song.getSongName());
         artistTextView.setText(song.getArtist());
-        Picasso.get().load(song.getThumbnailPath()).into(songImage);
+        if (song.isDownloaded()) {
+            Picasso.get().load("file:"+song.getThumbnailPath()).into(songImage);
+            Log.d("IMAGE_LOAD", "file:"+song.getThumbnailPath());
+        } else {
+            Picasso.get().load(song.getThumbnailPath()).into(songImage);
+        }
     }
 }
