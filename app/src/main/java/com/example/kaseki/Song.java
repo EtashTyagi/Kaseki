@@ -70,10 +70,10 @@ public class Song implements Serializable {
         }
         isPlaying = playing;
     }
-    public void download(Boolean to_download){
+    public void download(Boolean toDownload){
         if(!checkIfDownloaded()){
             Download_Manager downloader = MainActivity.getDownloader();
-            downloader.download(this,to_download);
+            downloader.download(this,toDownload);
             this.setDownloaded(true);
         }
         else Toast.makeText(mainActivity, "Song is Already Downloaded", Toast.LENGTH_SHORT).show();

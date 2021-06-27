@@ -29,6 +29,7 @@ public class SongDisplayCardController {
         download_ImageButton.setOnClickListener(v -> song.download(true));
         songNameTextView.setOnClickListener(this::play);
         artistTextView.setOnClickListener(this::play);
+        songImageContainer.setOnClickListener(this::play);
     }
 
     private void play(View view) {

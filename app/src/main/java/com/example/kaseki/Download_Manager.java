@@ -27,7 +27,7 @@ public class Download_Manager {
 
     }
 
-    public boolean download(Song song, Boolean to_download){
+    public boolean download(Song song, Boolean toDownload){
 
         YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+song.getVideoID());
 
@@ -47,7 +47,7 @@ public class Download_Manager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(to_download) {
+                if(toDownload) {
                     //Adding song to the Playlist
                     File file = new File(path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3");
                     if (file.exists()) {
