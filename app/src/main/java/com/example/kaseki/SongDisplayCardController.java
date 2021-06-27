@@ -29,8 +29,9 @@ public class SongDisplayCardController {
     }
 
     private void play(View view) {
+        song.setPlaying(true);
         mainActivity.getSecondarySongDisplayController().setToSong(song);
         mainActivity.getSecondarySongDisplayController().play(song);
-        song.setPlaying(true);
+        mainActivity.getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
     }
 }

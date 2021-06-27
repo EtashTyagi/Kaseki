@@ -24,6 +24,10 @@ public class BottomBarController {
         libraryButton.setOnClickListener(this::onClick);
     }
     private void onClick(View view) {
+        if (mainActivity.getSecondarySongDisplayController().getCurPlaying()!=null
+                && mainActivity.getSecondarySongDisplayController().getParent().getVisibility()==View.INVISIBLE) {
+            mainActivity.getSecondarySongDisplayController().relapse();
+        }
         if (selected!=null) {
             selected.setAlpha(0.5F);
         }

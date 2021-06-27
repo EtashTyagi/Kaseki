@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="secondary_black">#282828</color>
     <color name="transparent_black">#33000000</color>
+    <color name="golden">#FFD700</color>
 </resources>

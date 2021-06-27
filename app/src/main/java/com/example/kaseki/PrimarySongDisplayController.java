@@ -18,7 +18,7 @@ public class PrimarySongDisplayController extends DisplayController{
     private ImageView songImage;
     private ImageView prevButton;
     private ImageView nextButton;
-    private static ImageView playPauseButton;
+    private ImageView playPauseButton;
     private TextView playlistTitle;
     private TextView songName;
     private static SeekBar seekBar;
@@ -56,42 +56,30 @@ public class PrimarySongDisplayController extends DisplayController{
 
         });
 
-        playPauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean paused = secondarySongDisplayController.isPaused();
-                if (paused) {
-                    Player.resume();
-                    secondarySongDisplayController.getPlayPauseButton().setImageResource(PAUSE_IMAGE);
-                    playPauseButton.setImageResource(PAUSE_IMAGE);
-                } else {
-                    Player.pause();
-                    secondarySongDisplayController.getPlayPauseButton().setImageResource(PLAY_IMAGE);
-                    playPauseButton.setImageResource(PLAY_IMAGE);
-                }
-                secondarySongDisplayController.setPaused(!paused);
+        playPauseButton.setOnClickListener(v -> {
+            boolean paused = secondarySongDisplayController.isPaused();
+            if (paused) {
+                Player.resume();
+                secondarySongDisplayController.getPlayPauseButton().setImageResource(PAUSE_IMAGE);
+                playPauseButton.setImageResource(PAUSE_IMAGE);
+            } else {
+                Player.pause();
+                secondarySongDisplayController.getPlayPauseButton().setImageResource(PLAY_IMAGE);
+                playPauseButton.setImageResource(PLAY_IMAGE);
             }
+            secondarySongDisplayController.setPaused(!paused);
         });
 
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                giveIndex(-1);
-            }
-        });
+        prevButton.setOnClickListener(v -> giveIndex(-1));
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Vector<Playlist> playlist = MainActivity.getPlaylists();
-                Song curr = secondarySongDisplayController.getCurPlaying();
-                giveIndex(1);
-            }
+        nextButton.setOnClickListener(v -> {
+            Vector<Playlist> playlist = MainActivity.getPlaylists();
+            Song curr = secondarySongDisplayController.getCurPlaying();
+            giveIndex(1);
         });
     }
     public void setToSong(Song song,SecondarySongDisplayController secondarySongDisplayController) {
         this.secondarySongDisplayController = secondarySongDisplayController;
-        playPauseButton.setImageResource(PAUSE_IMAGE);
         seekBar.setMax(Player.getPlayer().getDuration());
         if (song.isDownloaded()) {
             Picasso.get().load(new File(song.getThumbnailPath())).into(songImage);
@@ -127,7 +115,7 @@ public class PrimarySongDisplayController extends DisplayController{
         Player.start(uri,MainActivity.getDownloader().getApplication());
     }
 
-    public static void changePlayPauseButton(boolean paused) {
+    public void changePlayPauseButton(boolean paused) {
         if (paused) {
             playPauseButton.setImageResource(PAUSE_IMAGE);
         } else {

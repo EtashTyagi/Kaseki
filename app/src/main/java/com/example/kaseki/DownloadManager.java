@@ -11,7 +11,7 @@ import com.yausername.youtubedl_android.YoutubeDLRequest;
 import java.io.*;
 import java.net.URL;
 
-public class Download_Manager {
+public class DownloadManager {
     private File path;
     private Application application;
     public void initialize(Application application,String uri){
@@ -66,7 +66,7 @@ public class Download_Manager {
                         Utils.serializePlaylist(MainActivity.getPlaylists(), MainActivity.getSerializedPath());
                     } else {
                         Log.d("Download", "File Does not downloaded Successfully");
-                        Toast.makeText(MainActivity.getCurrentInstance(), "Download failed on your device", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.getCurrentInstance(), "Download failed on your device", Toast.LENGTH_LONG).show();
                     }
                 }
                 else{

@@ -9,7 +9,7 @@
                                                        android:layout_width="match_parent"
                                                        android:layout_height="wrap_content"
                                                        android:background="@color/secondary_black"
-                                                       android:backgroundTint="@color/secondary_black"
+                                                       android:backgroundTint="@color/black"
                                                        tools:ignore="BottomAppBar">
     <LinearLayout
             android:layout_width="match_parent"
@@ -18,14 +18,15 @@
         <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
+                android:layout_height="2dp"
                 android:id="@+id/songProgressBar"
                 android:background="@android:drawable/screen_background_light_transparent"
         />
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" android:background="@color/secondary_black"
+                android:backgroundTint="@color/secondary_black">
             <ImageView
                     android:layout_width="64dp"
                     android:layout_height="64dp" tools:srcCompat="@drawable/added" android:id="@+id/songImageSD"
@@ -66,5 +67,8 @@
                     android:id="@+id/playPauseButton" android:layout_weight="1" android:background="@null"
                     android:scaleType="fitCenter" android:padding="12dp"/>
         </LinearLayout>
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
     </LinearLayout>
 </com.google.android.material.bottomappbar.BottomAppBar>

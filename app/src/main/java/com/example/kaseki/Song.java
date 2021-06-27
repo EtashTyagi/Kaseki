@@ -71,7 +71,7 @@ public class Song implements Serializable {
     }
     public void download(Boolean toDownload){
         if(!MainActivity.isDownloaded(this)){
-            Download_Manager downloader = MainActivity.getDownloader();
+            DownloadManager downloader = MainActivity.getDownloader();
             downloader.download(this,toDownload);
             this.setDownloaded(true);
         }

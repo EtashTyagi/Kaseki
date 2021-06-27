@@ -1,15 +1,15 @@
 package com.example.kaseki;
 
 import android.app.Application;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.yausername.youtubedl_android.YoutubeDL;
-import com.yausername.youtubedl_android.YoutubeDLException;
 
 import java.io.File;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private MainDisplayFlipperController mainDisplayFlipperController;
     private PlaylistDisplayController playlistDisplayController;
     private PrimarySongDisplayController primarySongDisplayController;
-    private static Download_Manager Downloader;
+    private static DownloadManager Downloader;
     private static Vector<Playlist> playlists;
     private static HashSet<Song> downloadedSongs;
     private static String SERIALIZED_FILE;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         for (Playlist p : playlists) {
             downloadedSongs.addAll(p.getSongs());
         }
-        Downloader = new Download_Manager();
+        Downloader = new DownloadManager();
         Downloader.initialize(getApplication(),getApplicationInfo().dataDir);;
         initialize(getApplicationInfo().dataDir);
         GarbageCollector.collectGarbage(getApplicationInfo().dataDir);
@@ -51,19 +51,7 @@ public class MainActivity extends AppCompatActivity {
         initiateSecondarySongDisplay();
         //Main Display
         initiateMainDisplay();
-        Handler mHandler = new Handler();
-        //Make sure you update Seekbar on UI thread
-        Runnable mRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if(Player.getPlayer() != null){
-                    int mCurrentPosition = Player.getPlayer().getCurrentPosition();
-                    PrimarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
-                }
-                mHandler.postDelayed(this,200);
-            }
-        };
-        mRunnable.run();
+
     }
 
     public static MainActivity getCurrentInstance() {
@@ -104,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         mainDisplayFlipperController.initiateLibraryDisplay(playlistDisplayAdapter, playlists);
         playlistDisplayController=mainDisplayFlipperController.initiatePlaylistDisplay(playlists.get(0));
         primarySongDisplayController=mainDisplayFlipperController.initiatePrimarySongDisplayController();
+        updateSeekBar();
     }
 
     public PrimarySongDisplayController getPrimarySongDisplayController() {
@@ -113,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     public void changeMainDisplayController(Class<? extends DisplayController> type) {
         mainDisplayFlipperController.flipToDisplay(type);
     }
-    public static Download_Manager getDownloader() {
+    public static DownloadManager getDownloader() {
         return Downloader;
     }
     public static Vector<Playlist> getPlaylists() {
@@ -147,8 +136,22 @@ public class MainActivity extends AppCompatActivity {
         return this.getApplication();
     }
 
-    public void updateSeekBar(){
-
+    private void updateSeekBar(){
+        Handler mHandler = new Handler();
+        //Make sure you update Seekbar on UI thread
+        Runnable mRunnable = new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void run() {
+                if(Player.getPlayer() != null){
+                    int mCurrentPosition = Player.getPlayer().getCurrentPosition();
+                    primarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
+                    mainActivity.getSecondarySongDisplayController().getSongProgressBar().setProgress(mCurrentPosition);
+                }
+                mHandler.postDelayed(this,200);
+            }
+        };
+        mRunnable.run();
     }
 
 }

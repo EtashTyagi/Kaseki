@@ -1,9 +1,11 @@
 package com.example.kaseki;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -14,19 +16,21 @@ public class SecondarySongDisplayController {
     private TextView songNameTextView;
     private TextView artistTextView;
     private ImageView songImage;
-
+    private ProgressBar songProgressBar;
     private static final int PLAY_IMAGE=R.drawable.play;
     private static final int PAUSE_IMAGE=R.drawable.pause;
-    private Song curPlaying;
-    private int WRAP_HEIGHT;
+    private final int WRAP_HEIGHT;
+    private static Song curPlaying;
+
     private boolean paused=true;
 
     SecondarySongDisplayController() {
         this.mainActivity=MainActivity.getCurrentInstance();
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
-        curPlaying=new Song();
+        curPlaying=null;
         WRAP_HEIGHT=parent.getLayoutParams().height;
-        parent.getLayoutParams().height=1;
+        collapse();
+        songProgressBar=parent.findViewById(R.id.songProgressBar);
         playPauseButton=parent.findViewById(R.id.playPauseButton);
         songNameTextView=parent.findViewById(R.id.songNameTextViewSD);
         artistTextView=parent.findViewById(R.id.artistTextViewSD);
@@ -41,16 +45,15 @@ public class SecondarySongDisplayController {
     public void onClick(View view) {
         if (view==playPauseButton) {
             if (paused) {
-                Player.resume();
-                playPauseButton.setImageResource(PAUSE_IMAGE);
+                play(curPlaying);
             } else {
-                playPauseButton.setImageResource(PLAY_IMAGE);
-                Player.pause();
+                pause();
             }
-            PrimarySongDisplayController.changePlayPauseButton(paused);
-            paused=!paused;
+            mainActivity.getPrimarySongDisplayController().changePlayPauseButton(!paused);
         } else if (view==songImage || view==artistTextView || view==songNameTextView) {
+            mainActivity.getPrimarySongDisplayController().changePlayPauseButton(!paused);
             mainActivity.getPrimarySongDisplayController().setToSong(curPlaying,this);
+            collapse();
             mainActivity.changeMainDisplayController(PrimarySongDisplayController.class);
         }
     }
@@ -58,6 +61,7 @@ public class SecondarySongDisplayController {
     public void play(Song song) {
         playPauseButton.setImageResource(PAUSE_IMAGE);
         parent.getLayoutParams().height=WRAP_HEIGHT;
+        Player.resume();
         curPlaying=song;
         paused=false;
     }
@@ -70,6 +74,7 @@ public class SecondarySongDisplayController {
     }
 
     public void setToSong(Song song) {
+        parent.setVisibility(View.VISIBLE);
         curPlaying=song;
         songNameTextView.setText(song.getSongName());
         artistTextView.setText(song.getArtist());
@@ -80,13 +85,16 @@ public class SecondarySongDisplayController {
             Picasso.get().load(song.getThumbnailPath()).into(songImage);
         }
     }
+    public View getParent() {
+        return parent;
+    }
+
+    public ProgressBar getSongProgressBar() {
+        return songProgressBar;
+    }
 
     public Song getCurPlaying(){
         return curPlaying;
-    }
-
-    public void setCurPlaying(Song song){
-        curPlaying = song;
     }
 
     public boolean isPaused() {
@@ -97,11 +105,16 @@ public class SecondarySongDisplayController {
         return playPauseButton;
     }
 
-    public void setPlayPauseButton(ImageButton playPauseButton) {
-        this.playPauseButton = playPauseButton;
-    }
-
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public void collapse() {
+        parent.getLayoutParams().height=1;
+        parent.setVisibility(View.INVISIBLE);
+    }
+    public void relapse() {
+        parent.getLayoutParams().height=WRAP_HEIGHT;
+        parent.setVisibility(View.VISIBLE);
     }
 }

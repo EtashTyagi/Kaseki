@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" android:background="#000000">
+        tools:context=".MainActivity" android:background="@color/black">
     <ViewFlipper
 
             android:id="@+id/mainDisplayViewFlipper"
@@ -30,7 +30,7 @@
     <include android:layout_width="0dp" android:layout_height="wrap_content"
              layout="@layout/secondary_song_display"
              android:id="@+id/secondarySongDisplayInclude"
-             app:layout_constraintTop_toBottomOf="@+id/mainDisplayViewFlipper" android:layout_marginBottom="4dp"
+             app:layout_constraintTop_toBottomOf="@+id/mainDisplayViewFlipper"
              app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/bottomBarInclude"
              app:layout_constraintStart_toStartOf="parent"/>
     <include android:layout_width="0dp" android:layout_height="wrap_content" layout="@layout/bottom_bar"
