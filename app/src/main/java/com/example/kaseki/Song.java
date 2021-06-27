@@ -13,7 +13,7 @@ public class Song implements Serializable {
     private String thumbnailPath;
     private String artist;
     private transient MainActivity mainActivity;
-    private transient boolean isDownloaded;
+    private boolean isDownloaded;
     private transient boolean isPlaying;
 
     Song(MainActivity mainActivity) {
