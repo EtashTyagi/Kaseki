@@ -67,7 +67,7 @@ public class Song implements Serializable {
     public void setPlaying(boolean playing) {
         if (playing==true) {
             if(!checkIfDownloaded()) download(false);
-            else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),mainActivity.getApplication());
+            else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),MainActivity.getDownloader().getApplication());
         }
         isPlaying = playing;
     }

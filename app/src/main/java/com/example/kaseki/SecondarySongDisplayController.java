@@ -20,6 +20,7 @@ public class SecondarySongDisplayController {
     private Song curPlaying;
     private int WRAP_HEIGHT;
     private boolean paused=true;
+
     SecondarySongDisplayController(MainActivity mainActivity) {
         this.parent=mainActivity.findViewById(R.id.secondarySongDisplayInclude);
         this.mainActivity=mainActivity;
@@ -31,31 +32,36 @@ public class SecondarySongDisplayController {
         artistTextView=parent.findViewById(R.id.artistTextViewSD);
         songImage=parent.findViewById(R.id.songImageSD);
         songNameTextView.setSelected(true);
-        playPauseButton.setOnClickListener(this::onClick);
+        playPauseButton.setOnClickListener((view)->onClick(view));
     }
+
     private void onClick(View view) {
         if (view==playPauseButton) {
             if (paused) {
+                Player.resume();
                 playPauseButton.setImageResource(PAUSE_IMAGE);
             } else {
                 playPauseButton.setImageResource(PLAY_IMAGE);
+                Player.pause();
             }
             paused=!paused;
         }
     }
+
     public void play(Song song) {
         playPauseButton.setImageResource(PAUSE_IMAGE);
         parent.getLayoutParams().height=WRAP_HEIGHT;
         curPlaying=song;
-        Player.resume();
         paused=false;
     }
+
     public void pause() {
         playPauseButton.setImageResource(PLAY_IMAGE);
         parent.getLayoutParams().height=WRAP_HEIGHT;
         Player.pause();
         paused=true;
     }
+
     public void setToSong(Song song) {
         parent.setVisibility(View.VISIBLE);
         songNameTextView.setText(song.getSongName());

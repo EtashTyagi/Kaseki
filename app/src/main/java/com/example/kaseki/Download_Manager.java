@@ -102,5 +102,8 @@ public class Download_Manager {
         return path.getAbsolutePath().toString();
     }
 
+    public Application getApplication(){
+        return application;
+    }
 }
 
