@@ -73,8 +73,7 @@ public class DownloadManager {
                 else{
                     Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
                     MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
-                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().setToSong(song);
-                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().play(song);
+                    SongDisplayCardController.set(song);
                 }
             }
 
@@ -82,6 +81,8 @@ public class DownloadManager {
 
         Thread thread = new Thread(download);
         thread.start();
+        if(!toDownload)
+            SongDisplayCardController.set(song);
 
         return true;
     }

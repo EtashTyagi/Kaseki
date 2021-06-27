@@ -31,4 +31,9 @@ public class SongDisplayCardController {
     private void play(View view) {
         song.setPlaying(true);
     }
+
+    public static void set(Song song){
+        MainActivity.getCurrentInstance().getSecondarySongDisplayController().setToSong(song);
+        MainActivity.getCurrentInstance().getSecondarySongDisplayController().play(song);
+    }
 }
