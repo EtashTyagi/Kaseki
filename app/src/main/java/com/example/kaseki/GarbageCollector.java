@@ -32,6 +32,7 @@ public class GarbageCollector {
         File directory = new File(MainActivity.getDownloader().getPath());
         File[] files = directory.listFiles();
         ArrayList<File> delete = new ArrayList<>();
+        if(files == null) return;
         for (int i = 0; i < files.length; i++)
         {
             if(!songs.contains(files[i].getName()))
