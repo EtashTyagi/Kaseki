@@ -1,6 +1,7 @@
 package com.example.kaseki;
 
 import android.app.Application;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static HashSet<Song> downloadedSongs;
     private static String SERIALIZED_FILE;
     private static Player player = new Player();
+    private static Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,16 @@ public class MainActivity extends AppCompatActivity {
         initiateSecondarySongDisplay();
         //Main Display
         initiateMainDisplay();
+        Runnable update = new Runnable() {
+            @Override
+            public void run() {
+                while (true)
+                    updateSeekBar();
+            }
+        };
+        thread = new Thread(update);
     }
+
     public static MainActivity getCurrentInstance() {
         return mainActivity;
     }
@@ -130,6 +141,17 @@ public class MainActivity extends AppCompatActivity {
 
     public Application getActivity(){
         return this.getApplication();
+    }
+
+    public static void updateSeekBar(){
+        if(Player.getPlayer() != null){
+            int mCurrentPosition = Player.getPlayer().getCurrentPosition();
+            PrimarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
+
+        }
+    }
+    public static void run(){
+        thread.start();
     }
 
 }
