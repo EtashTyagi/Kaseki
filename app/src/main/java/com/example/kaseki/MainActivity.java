@@ -136,6 +136,15 @@ public class MainActivity extends AppCompatActivity {
         return this.getApplication();
     }
 
+    public void set(Song song){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SongDisplayCardController.set(song);
+            }
+        });
+    }
+
     private void updateSeekBar(){
         Handler mHandler = new Handler();
         //Make sure you update Seekbar on UI thread

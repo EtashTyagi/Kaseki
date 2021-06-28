@@ -64,15 +64,20 @@ public class Song implements Serializable {
 
     public void setPlaying(boolean playing) {
         if (playing) {
-            if(!MainActivity.isDownloaded(this)) download(false);
-            else Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),MainActivity.getDownloader().getApplication());
+            if(!MainActivity.isDownloaded(this)){
+                download(false);
+            }
+            else{
+                SongDisplayCardController.set(this);
+                Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),MainActivity.getDownloader().getApplication());
+            }
         }
         isPlaying = playing;
     }
     public void download(Boolean toDownload){
         if(!MainActivity.isDownloaded(this)){
             DownloadManager downloader = MainActivity.getDownloader();
-            downloader.download(this,toDownload);
+            MainActivity.getDownloader().download(this,toDownload);
             this.setDownloaded(true);
         }
         else Toast.makeText(mainActivity, "Song is Already Downloaded", Toast.LENGTH_SHORT).show();
