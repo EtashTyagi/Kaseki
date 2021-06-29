@@ -73,8 +73,6 @@ public class PrimarySongDisplayController extends DisplayController{
         prevButton.setOnClickListener(v -> giveIndex(-1));
 
         nextButton.setOnClickListener(v -> {
-            Vector<Playlist> playlist = MainActivity.getPlaylists();
-            Song curr = secondarySongDisplayController.getCurPlaying();
             giveIndex(1);
         });
     }
@@ -109,10 +107,10 @@ public class PrimarySongDisplayController extends DisplayController{
         int size = playlist.get(arr[0]).getSongs().size();
         int index = ((arr[1] + next_or_prev)%size + size)%size;
         Song next = playlist.get(arr[0]).getSongs().get(index);
-        secondarySongDisplayController.setToSong(next);
-        setToSong(next, secondarySongDisplayController);
         Uri uri = Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/" +next.getVideoID()+".mp3");
         Player.start(uri,MainActivity.getDownloader().getApplication());
+        secondarySongDisplayController.setToSong(next);
+        setToSong(next, secondarySongDisplayController);
     }
 
     public void changePlayPauseButton(boolean paused) {
