@@ -29,6 +29,7 @@ public class Player extends Service {
     public static void start(Uri uri, Application application){
         if(player != null && player.isPlaying()) player.pause();
         player = MediaPlayer.create(application,uri);
+        MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
         player.start();
     }
     public static void resume() {

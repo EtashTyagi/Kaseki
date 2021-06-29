@@ -46,6 +46,7 @@ public class SecondarySongDisplayController {
         if (view==playPauseButton) {
             if (paused) {
                 play(curPlaying);
+                Player.resume();
             } else {
                 pause();
             }
