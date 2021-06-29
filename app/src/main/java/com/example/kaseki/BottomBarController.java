@@ -25,7 +25,7 @@ public class BottomBarController {
     }
     private void onClick(View view) {
         if (mainActivity.getSecondarySongDisplayController().getCurPlaying()!=null
-                && mainActivity.getSecondarySongDisplayController().getParent().getVisibility()==View.INVISIBLE) {
+                && mainActivity.getSecondarySongDisplayController().isCollapsed()) {
             mainActivity.getSecondarySongDisplayController().relapse();
         }
         if (selected!=null) {

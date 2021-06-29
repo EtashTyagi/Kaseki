@@ -21,6 +21,7 @@ public class SecondarySongDisplayController {
     private static final int PAUSE_IMAGE=R.drawable.pause;
     private final int WRAP_HEIGHT;
     private static Song curPlaying;
+    private boolean isCollapsed;
 
     private boolean paused=true;
 
@@ -30,6 +31,7 @@ public class SecondarySongDisplayController {
         curPlaying=null;
         WRAP_HEIGHT=parent.getLayoutParams().height;
         collapse();
+        isCollapsed=false;
         songProgressBar=parent.findViewById(R.id.songProgressBar);
         playPauseButton=parent.findViewById(R.id.playPauseButton);
         songNameTextView=parent.findViewById(R.id.songNameTextViewSD);
@@ -112,9 +114,15 @@ public class SecondarySongDisplayController {
     public void collapse() {
         parent.getLayoutParams().height=1;
         parent.setVisibility(View.INVISIBLE);
+        isCollapsed=true;
     }
     public void relapse() {
         parent.getLayoutParams().height=WRAP_HEIGHT;
         parent.setVisibility(View.VISIBLE);
+        isCollapsed=false;
+    }
+
+    public boolean isCollapsed() {
+        return isCollapsed;
     }
 }

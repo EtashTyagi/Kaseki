@@ -14,6 +14,7 @@ public class Song implements Serializable {
     private transient MainActivity mainActivity;
     private boolean isDownloaded;
     private transient boolean isPlaying;
+    private transient SongDisplayCardController curController=null;
 
     Song() {
         this.mainActivity=MainActivity.getCurrentInstance();
@@ -62,12 +63,21 @@ public class Song implements Serializable {
         return isPlaying;
     }
 
-    public void setPlaying(boolean playing) {
+    public void setCurController(SongDisplayCardController curController) {
+        this.curController = curController;
+    }
+
+    public SongDisplayCardController getCurController() {
+        return curController;
+    }
+
+    public void setPlaying(boolean playing, SongDisplayCardController controller) {
         if (playing) {
             if(!MainActivity.isDownloaded(this)){
                 download(false);
             }
             else{
+                controller.notifyDownloaded();
                 SongDisplayCardController.set(this);
                 Player.start(Uri.parse("file://"+MainActivity.getDownloader().getPath() +"/"+getVideoID()+".mp3"),MainActivity.getDownloader().getApplication());
             }
@@ -76,6 +86,7 @@ public class Song implements Serializable {
     }
     public void download(Boolean toDownload){
         if(!MainActivity.isDownloaded(this)){
+            curController.notifyDownloading();
             DownloadManager downloader = MainActivity.getDownloader();
             MainActivity.getDownloader().download(this,toDownload);
             this.setDownloaded(true);

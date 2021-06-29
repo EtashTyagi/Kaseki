@@ -10,12 +10,19 @@ import com.yausername.youtubedl_android.YoutubeDLRequest;
 
 import java.io.*;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class DownloadManager {
     private File path;
     private Application application;
+    private ThreadPoolExecutor threadPoolExecutor;
+    private HashMap<Song, Song> curDownloadingToRealInstance=new HashMap<>();
     public void initialize(Application application,String uri){
         //Initializing Youtube -dl
+        threadPoolExecutor=(ThreadPoolExecutor) Executors.newCachedThreadPool();
         this.application = application;
         try {
             YoutubeDL.getInstance().init(application);
@@ -29,58 +36,63 @@ public class DownloadManager {
     }
 
     public boolean download(Song song, Boolean toDownload){
-
-        YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+song.getVideoID());
-
         //Setting the options
-        Runnable download = new Runnable() {
-            @Override
-            public void run() {
-                song.setDownloaded(toDownload);
-                request.addOption("-o", path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
-                request.addOption("-f","bestaudio[ext=m4a]");
+        curDownloadingToRealInstance.put(song, song);
+        Runnable download = () -> {
+            YoutubeDLRequest request = new YoutubeDLRequest("https://www.youtube.com/watch?v="+song.getVideoID());
+            Log.d("HELLO", "DOWNLOAD GOT CALLED");
 
-                try {
-                    YoutubeDL.getInstance().execute(request, (progress, etaInSeconds) -> {
-                        System.out.println(String.valueOf(progress) + "% (ETA " + String.valueOf(etaInSeconds) + " seconds)");
-                    });
-                } catch (YoutubeDLException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(toDownload) {
-                    //Adding song to the Playlist
-                    File file = new File(path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3");
-                    if (file.exists()) {
-                        try {
-                            download_thumbnail(song.getThumbnailPath(), song.getVideoID());
-                            song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails/" + song.getVideoID() + ".jpg");
-                            System.out.println(song.getThumbnailPath());
-                        } catch (IOException e) {
-                            System.out.println(e);
-                        }
-                        Log.d("Download", "Song Downloaded");
-                        MainActivity.getPlaylists().get(0).getSongs().add(song);
-                        MainActivity.addDownloaded(song);
+            song.setDownloaded(toDownload);
+            request.addOption("-o", path.getAbsolutePath() + "/"+song.getVideoID()+".mp3");
+            request.addOption("-f","bestaudio[ext=m4a]");
 
-                        Utils.serializePlaylist(MainActivity.getPlaylists(), MainActivity.getSerializedPath());
-                    } else {
-                        Log.d("Download", "File Does not downloaded Successfully");
-                        Toast.makeText(MainActivity.getCurrentInstance(), "Download failed on your device", Toast.LENGTH_LONG).show();
+            try {
+                YoutubeDL.getInstance().execute(request, (progress, etaInSeconds) -> {
+
+                    if (song.getCurController()!=null) {
+                        Log.d("DOWNLOAD_STATUS", song.getSongName() + " " + progress);
+                        MainActivity.getCurrentInstance().runOnUiThread(()->
+                                song.getCurController().relapseDownloadProgress(progress));
                     }
-                }
-                else{
-                    Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
-                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
-                    MainActivity.getCurrentInstance().set(song);
+                });
+            } catch (YoutubeDLException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(toDownload) {
+                //Adding song to the Playlist
+                File file = new File(path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3");
+                if (file.exists()) {
+                    try {
+                        download_thumbnail(song.getThumbnailPath(), song.getVideoID());
+                        song.setThumbnailPath(application.getApplicationInfo().dataDir + "/thumbnails/" + song.getVideoID() + ".jpg");
+                        System.out.println(song.getThumbnailPath());
+                    } catch (IOException e) {
+                        System.out.println(e);
+                    }
+                    Log.d("Download", "Song Downloaded");
+                    MainActivity.getPlaylists().get(0).getSongs().add(song);
+                    MainActivity.addDownloaded(song);
+                    if (song.getCurController()!=null) {
+                        MainActivity.getCurrentInstance().runOnUiThread(song.getCurController()::notifyDownloaded);
+                    }
+                    Utils.serializePlaylist(MainActivity.getPlaylists(), MainActivity.getSerializedPath());
+                } else {
+                    Log.d("Download", "File Does not downloaded Successfully");
+                    MainActivity.getCurrentInstance().runOnUiThread(
+                            ()->{ Toast.makeText(MainActivity.getCurrentInstance(),
+                                    "Download failed on your device", Toast.LENGTH_LONG).show();
+                                song.getCurController().notifyFailedDownload();});
                 }
             }
-
+            else{
+                Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
+                MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
+                MainActivity.getCurrentInstance().set(song);
+                MainActivity.getCurrentInstance().runOnUiThread(song.getCurController()::notifyFailedDownload);
+            }
+            curDownloadingToRealInstance.remove(song);
         };
-
-        Thread thread = new Thread(download);
-        thread.start();
+        threadPoolExecutor.execute(download);
 
         return true;
     }
@@ -111,6 +123,17 @@ public class DownloadManager {
 
     public Application getApplication(){
         return application;
+    }
+
+    public Song getPreviousDownloadingStatus(Song song) {
+        if (curDownloadingToRealInstance.containsKey(song)) {
+            return curDownloadingToRealInstance.get(song);
+        } else {
+            return song;
+        }
+    }
+    public boolean isDownloading(Song song) {
+        return curDownloadingToRealInstance.containsKey(song);
     }
 }
 

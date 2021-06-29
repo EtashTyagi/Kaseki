@@ -69,6 +69,6 @@
         </LinearLayout>
         <Space
                 android:layout_width="match_parent"
-                android:layout_height="2dp"/>
+                android:layout_height="4dp"/>
     </LinearLayout>
 </com.google.android.material.bottomappbar.BottomAppBar>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private PrimarySongDisplayController primarySongDisplayController;
     private static DownloadManager Downloader;
     private static Vector<Playlist> playlists;
-    private static HashSet<Song> downloadedSongs;
+    private static HashMap<Song, Playlist> downloadedSongsToPlaylist;
+    private static HashMap<Song, Song> newToSaved;
     private static String SERIALIZED_FILE;
     private static Player player = new Player();
     @Override
@@ -36,10 +38,14 @@ public class MainActivity extends AppCompatActivity {
         Utils.changeStatusBarColor(this, R.color.transparent_black);
         Utils.changeNavBarColor(this, R.color.black);
         setContentView(R.layout.activity_main);
-        downloadedSongs=new HashSet<>();
+        downloadedSongsToPlaylist =new HashMap<>();
+        newToSaved=new HashMap<>();
         playlists = Utils.deserializePlaylist(SERIALIZED_FILE);
         for (Playlist p : playlists) {
-            downloadedSongs.addAll(p.getSongs());
+            for (Song s:p.getSongs()) {
+                downloadedSongsToPlaylist.put(s, p);
+                newToSaved.put(s, s);
+            }
         }
         Downloader = new DownloadManager();
         Downloader.initialize(getApplication(),getApplicationInfo().dataDir);;
@@ -109,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
         return playlists;
     }
     public static void addDownloaded(Song song) {
-        downloadedSongs.add(song);
+        downloadedSongsToPlaylist.put(song, playlists.get(0));
+        newToSaved.put(song, song);
     }
 
     public void initialize(String path){
@@ -129,7 +136,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean isDownloaded(Song song) {
-        return downloadedSongs.contains(song);
+        return downloadedSongsToPlaylist.containsKey(song);
+    }
+
+    public static void removeSong(Song s) {
+        newToSaved.remove(s);
+        downloadedSongsToPlaylist.get(s).getSongs().remove(s);
+        downloadedSongsToPlaylist.remove(s);
+        Utils.serializePlaylist(MainActivity.getPlaylists(), MainActivity.getSerializedPath());
     }
 
     public Application getActivity(){
@@ -137,14 +151,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void set(Song song){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                SongDisplayCardController.set(song);
-            }
-        });
+        runOnUiThread(() -> SongDisplayCardController.set(song));
     }
-
+    public Song  getRealSong(Song prev) {
+        return newToSaved.get(prev);
+    }
     private void updateSeekBar(){
         Handler mHandler = new Handler();
         //Make sure you update Seekbar on UI thread
@@ -154,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if(Player.getPlayer() != null){
                     int mCurrentPosition = Player.getPlayer().getCurrentPosition();
-                    primarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
+                    PrimarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
                     mainActivity.getSecondarySongDisplayController().getSongProgressBar().setProgress(mCurrentPosition);
                     //Log.d("Progress",Integer.toString(mCurrentPosition/1000) + " "+ Player.getPlayer().getDuration()/1000 );
                     if(Player.getPlayer().getDuration()/1000 <= mCurrentPosition/1000 + 1)

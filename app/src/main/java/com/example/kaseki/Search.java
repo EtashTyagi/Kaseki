@@ -2,10 +2,7 @@ package com.example.kaseki;
 
 import android.content.Context;
 import android.util.Log;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
@@ -27,7 +24,7 @@ public class Search {
     private Vector<Song> searched_songs;
 
     Search(){
-        api_key = "AIzaSyDBT_mj6XgfCQYXuipuhsgSAELknxWvRyg";
+        api_key = "AIzaSyAFZYChju8gkVecc0R-OjT-5bZRFKitfLU";
         Description_part1 ="https://www.googleapis.com/youtube/v3/videos?id=";
         Description_part2 = "&key="+api_key+"&part=snippet";
         search = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&q=";
@@ -37,7 +34,6 @@ public class Search {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = search + request;
         searched_songs = new Vector<>();
-        Hashtable<String, Boolean> done=new Hashtable<>();
         // Request a string response from the provided URL.
         StringRequest searchRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -51,14 +47,17 @@ public class Search {
                             String video_id = video.get("videoId").toString();
                             Song toAdd=(new Song());
                             toAdd.setVideoID(video_id);
-                            if (!done.containsKey(video_id)) {
+                            if (MainActivity.isDownloaded(toAdd)) {
+                                sdc.populateSong(MainActivity.getCurrentInstance().getRealSong(toAdd));
+                            } else {
                                 add_des(context,video_id, sdc, toAdd);
-                                Log.d("CONTAINS", done.toString());
-                                done.put(video_id, Boolean.TRUE);
                             }
                         }
+                        MainActivity.getCurrentInstance().runOnUiThread(sdc::notifySearchComplete);
+                        Log.d("DUN", "NO");
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        MainActivity.getCurrentInstance().runOnUiThread(sdc::notifySearchComplete);
                     }
                 }, new Response.ErrorListener() {
             @Override
