@@ -24,7 +24,7 @@ public class Search {
     private Vector<Song> searched_songs;
 
     Search(){
-        api_key = "AIzaSyDBT_mj6XgfCQYXuipuhsgSAELknxWvRyg";
+        api_key = "AIzaSyDcolYjWk0CmaD9ogl4mCl2L1jnA04fjfU";
         Description_part1 ="https://www.googleapis.com/youtube/v3/videos?id=";
         Description_part2 = "&key="+api_key+"&part=snippet";
         search = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&q=";

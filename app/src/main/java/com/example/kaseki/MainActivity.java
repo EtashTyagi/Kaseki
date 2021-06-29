@@ -167,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
                     int mCurrentPosition = Player.getPlayer().getCurrentPosition();
                     PrimarySongDisplayController.getSeekBar().setProgress(mCurrentPosition);
                     mainActivity.getSecondarySongDisplayController().getSongProgressBar().setProgress(mCurrentPosition);
-                    //Log.d("Progress",Integer.toString(mCurrentPosition/1000) + " "+ Player.getPlayer().getDuration()/1000 );
                     if(Player.getPlayer().getDuration()/1000 <= mCurrentPosition/1000 + 1)
                         mainActivity.getPrimarySongDisplayController().giveIndex(1);
                 }

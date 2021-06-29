@@ -101,7 +101,6 @@ public class PrimarySongDisplayController extends DisplayController{
             }
         }
         if(arr[0] == -1){
-            Toast.makeText(mainActivity, "This song is not in your Playlist", Toast.LENGTH_SHORT).show();
             return;
         }
         int size = playlist.get(arr[0]).getSongs().size();
