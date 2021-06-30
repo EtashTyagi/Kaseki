@@ -11,7 +11,7 @@ All these things without any single add.
 
 We use Youtube Api for seraching puruposes.
 
-### Note: If search not working (quota exceeded) replace api key in search with your own YouTube v3 api key from
+### Note: If search not working (quota exceeded) replace api key in Search.java's constructor with your own YouTube v3 api key from
  https://console.cloud.google.com/apis/
 
 
