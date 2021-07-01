@@ -85,10 +85,20 @@ public class DownloadManager {
                 }
             }
             else{
-                Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
-                MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
-                MainActivity.getCurrentInstance().set(song);
-                MainActivity.getCurrentInstance().runOnUiThread(song.getCurController()::notifyFailedDownload);
+                File file = new File(path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3");
+                if(file.exists()){
+                    Player.start(Uri.parse("file://"+path.getAbsolutePath() + "/" + song.getVideoID() + ".mp3"),application);
+                    MainActivity.getCurrentInstance().getSecondarySongDisplayController().getSongProgressBar().setMax(Player.getPlayer().getDuration());
+                    MainActivity.getCurrentInstance().set(song);
+                    MainActivity.getCurrentInstance().runOnUiThread(song.getCurController()::notifyFailedDownload);
+                }
+                else{
+                    Log.d("Download", "File Does not downloaded Successfully");
+                    MainActivity.getCurrentInstance().runOnUiThread(
+                            ()->{ Toast.makeText(MainActivity.getCurrentInstance(),
+                                    "Download failed on your device", Toast.LENGTH_LONG).show();
+                                song.getCurController().notifyFailedDownload();});
+                }
             }
             curDownloadingToRealInstance.remove(song);
         };
